@@ -90,7 +90,7 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  position: relative;
+  /* position: relative; */
 }
 
 .aboutproject__line_first {

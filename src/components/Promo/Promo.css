@@ -48,10 +48,6 @@
   margin-top: 75px;
   width: 310px;
   height: 304px;
-  background-image: url("../../images/landing-logo.svg");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
 }
 
 .promo__button {

@@ -16,6 +16,7 @@ function App() {
 
   const [isBurgerOpen, setIsBurgernOpen] = useState(false);
 
+
   function closeAll() {
     setIsBurgernOpen(false);
   }
@@ -28,19 +29,15 @@ function App() {
 
   return (
     <div className='page'>
-      <Header handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll}/>
+      <Header themeDark={true} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
       <Switch>
-        <Route path='/' exact>
-          <Main />
-        </Route>
-        {/* 
         <Route path='/movies'>
           <Movies />
         </Route>
         <Route path='/saved-movies'>
           <SavedMovies />
         </Route>
-        <Route path='/profile'>
+        {/* <Route path='/profile'>
           <Profile />
         </Route>
         <Route path='/signin'>
@@ -49,8 +46,10 @@ function App() {
         <Route path='/signup'>
           <Register />
         </Route> */}
+        <Route path='/' exact>
+          <Main />
+        </Route>
       </Switch>
-
     </div>
   );
 }
