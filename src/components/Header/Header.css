@@ -1,0 +1,50 @@
+.header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 74px;
+  background: #202020;
+  color: #ffffff;
+  font-family: "Inter";
+  font-style: normal;
+}
+
+.header_theme_dark {
+  background-color: #202020;
+}
+
+.header_theme_bright {
+  background-color: #073042;
+}
+
+.header__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 1280px;
+  max-width: calc(100% - 140px);
+}
+
+.header__logo {
+  width: 38px;
+  height: 38px;
+}
+
+.header__logo_movies {
+  margin-right: 44px;
+}
+
+@media screen and (max-width: 800px) {
+  .header__container {
+    max-width: calc(100% - 60px);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .header__container {
+    max-width: calc(100% - 28px);
+  }
+}

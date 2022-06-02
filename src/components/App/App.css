@@ -1,0 +1,20 @@
+.page {
+  font-family: Inter, Arial, Helvetica, sans-serif;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  width: 100%;
+  min-height: 100vh;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.page__container{
+  max-width: calc(1280px - 140px);
+
+}
+
