@@ -1,23 +1,35 @@
 import React from 'react';
 import './AboutMe.css';
 import '../AboutProject/AboutProject.css';
+import myPhoto from '../../images/myPhoto.jpg';
+import { Link } from 'react-router-dom';
+import Portfolio from '../Portfolio/Portfolio';
 
 function AboutMe() {
   return (
-    <section className='aboutme'>
-      <div className='aboutme__content'>
-        <h2 className='aboutproject__title'>Студент</h2>
-        <div className='aboutproject__border'></div>
-        <div className='aboutproject__info aboutproject__info_position_aboutme'>
-          <article className='aboutproject__article aboutproject__article_position_aboutme'>
-            <h2 className='aboutme__title_position_article'>Денис</h2>
-            <h2 className='aboutproject__subtitle'>front-end разработчик 20 лет</h2>
-            <p className='aboutproject__text aboutproject__text_aboutme'>Я родился в Ярославле, обучаюсь в Москве по программе программной инженерии МИЭТ. Я люблю читать литературу, а ещё увлекаюсь боксом, велопрогулками. Недавно начал кодить. После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами, продолжая учёбу в вузе.</p>
+    <section className='about-me'>
+      <div className='about-me__content'>
+        <h2 className='about-project__title'>Студент</h2>
+        <div className='about-project__border'></div>
+        <div className='about-project__info about-project__info_position_aboutme'>
+          <article className='about-project__article about-project__article_position_aboutme'>
+            <h2 className='about-me__title_position_article'>Денис</h2>
+            <h2 className='about-project__subtitle about-project__subtitle_position_aboutme'>front-end разработчик 19 лет</h2>
+            <p className='about-project__text about-project__text_aboutme'>Я родился в Ярославле, обучаюсь в Москве по программе программной инженерии. Я люблю читать литературу, а ещё увлекаюсь боксом, велопрогулками. Недавно начал кодить. После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами, продолжая учёбу в вузе.</p>
+            <nav className='about-me__list'>
+              <li className='about-me__item'>
+                <Link to='https://vk.com/ddenios' className='about-me__link'>VK</Link>
+              </li>
+              <li className='about-me__item'>
+                <Link to='https://github.com/ddenyy' className='about-me__link'>GitHub</Link>
+              </li>
+            </nav>
           </article>
-          <article className='aboutproject__article aboutproject__article_type_photo'>
-            <div className='aboutme__photo'></div> 
+          <article className='about-project__article about-project__article_type_photo'>
+            <img src={myPhoto} alt='Denis Osipov' className='about-me__photo'/>
           </article>
         </div>
+      <Portfolio/>
       </div>
     </section>
   );

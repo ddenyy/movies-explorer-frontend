@@ -28,19 +28,20 @@ function Navigation({ autorized, handleOnClickBurger, isOpenBurger, onClose }) {
         </nav>
       ) : (
         <>
-          <nav className={`navigation navigation_type_autorized navigation_state_${isOpenBurger ? 'open' : 'close'}`}>
-            <button className={`navigation__button ${isOpenBurger ? 'navigation__button_state_exit' : ''}`} type='button' onClick={handleBurgerOpen}></button>
+        
+          <nav className={`navigation navigation_type_autorized  navigation_state_${isOpenBurger ? 'open' : 'close'}`}>
+          <button className={`navigation__button ${isOpenBurger ? 'navigation__button_state_exit' : ''}`} type='button' onClick={handleBurgerOpen}></button>
             <ul className={`navigation__list navigation__list_type_autorized navigation__list_position_${isOpenBurger ? 'burger' : 'header'}`}>
               {isOpenBurger ? (
                 <li className='navigation__item'>
-                  <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/'>Главная</NavLink>
+                  <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/' onClick={isOpenBurger ? handleBurgerOpen : () => { }}>Главная</NavLink>
                 </li>
               ) : (<></>)}
               <li className='navigation__item'>
-                <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/movies'>Фильмы</NavLink>
+                <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/movies' onClick={isOpenBurger ? handleBurgerOpen : () => { }}>Фильмы</NavLink>
               </li>
               <li className='navigation__item'>
-                <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/save-movies'>Сохранённые фильмы</NavLink>
+                <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/save-movies' onClick={isOpenBurger ? handleBurgerOpen : () => { }}>Сохранённые фильмы</NavLink>
               </li>
               <li className="navigation__item">
                 <Link to='/profile' className={`navigation__link navigation__link_type_account navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`}></Link>

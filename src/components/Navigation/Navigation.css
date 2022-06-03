@@ -7,6 +7,12 @@
   z-index: 200;
   font-family: "Inter";
   font-style: normal;
+  visibility: visible;
+}
+
+.navigation_type_autorized {
+  justify-content: space-between;
+  width: calc(100% - 82px);
 }
 
 .navigation__list {
@@ -30,11 +36,9 @@
   height: 100%;
 }
 
-.navigation__list_position_header{
+.navigation__list_position_header {
   width: 100%;
 }
-
-
 
 .navigation__link {
   display: flex;
@@ -61,7 +65,7 @@
   line-height: 22px;
 }
 
-.navigation__link_position_header{
+.navigation__link_position_header {
   border-bottom: none;
 }
 
@@ -71,9 +75,9 @@
   transition: opacity 0.3s linear;
 }
 
-.navigation__link_state_active{
+.navigation__link_state_active {
   padding-bottom: 4px;
-  border-bottom: 2px solid #FFFFFF;
+  border-bottom: 2px solid #ffffff;
   font-weight: 500;
 }
 
@@ -87,21 +91,13 @@
   background-image: url("../../images/account.svg");
 }
 
-
-
 .navigation__item {
   display: block;
 }
 
-.navigation__item:last-child{
+.navigation__item:last-child {
   margin-left: auto;
 }
-
-.navigation_type_autorized {
-  justify-content: space-between;
-  width: calc(100% - 82px);
-}
-
 
 .navigation__button {
   width: 40px;
@@ -122,28 +118,7 @@
   position: absolute;
   top: 22px;
   right: 22px;
-}
-
-.navigation_state_open {
-  visibility: visible;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background-color: #202020;
-  position: fixed;
-  width: 100%;
-  max-width: 520px;
-  height: 100vh;
-  top: 0;
-  right: 0;
-  z-index: 1;
-  transition: all 0.3s linear;
-}
-
-.navigation_state_close {
-  z-index: 1;
-  right: -100%;
-  transition: all 0.3s linear;
+  z-index: 12;
 }
 
 .navigation__cover {
@@ -163,7 +138,7 @@
   background-color: #202020;
 }
 
-.navigation__cover_state_close{
+.navigation__cover_state_close {
   display: none;
 }
 
@@ -175,14 +150,29 @@
   .navigation_type_autorized {
     justify-content: flex-end;
   }
+ 
   .navigation_state_open {
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     justify-content: flex-start;
+    background-color: #202020;
+    position: fixed;
+    width: 100%;
+    max-width: 520px;
+    height: 100vh;
+    top: 0;
+    right: 0;
+    z-index: 1;
+    transition: all 0.3s linear;
+    opacity: 1;
   }
 
   .navigation__item:last-child {
-   margin-top: auto;
-   margin-bottom: 90px;
-   margin-left: 0;
+    margin-top: auto;
+    margin-bottom: 90px;
+    margin-left: 0;
   }
   .navigation__button {
     display: block;

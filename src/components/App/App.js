@@ -10,7 +10,7 @@ import Login from '../Login/Login';
 import Register from '../Register/Register';
 import Header from '../Header/Header';
 import NavTab from '../NavTab/NavTab';
-
+import Footer from '../Footer/Footer';
 
 function App() {
 
@@ -50,6 +50,7 @@ function App() {
           <Main />
         </Route>
       </Switch>
+    <Footer/>
     </div>
   );
 }

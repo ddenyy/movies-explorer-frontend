@@ -1,0 +1,32 @@
+.movies{
+    width: 100%;
+    min-height: 222px;
+    background-color: #202020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -1px;
+}
+
+.movies__content{
+    width: 1280px;
+    max-width: calc(100% - 2 * 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.movies__line{
+    background-color: #AAAAAA;
+    opacity: 0.2;
+    width: 100%;
+    height: 1px;
+    margin-bottom: 10px;
+}
+
+@media screen and (max-width: 812px) {
+  .movies__content{
+      max-width: calc(100% - 2 * 30px);
+  }
+}
