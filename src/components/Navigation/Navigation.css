@@ -165,20 +165,43 @@
     top: 0;
     right: 0;
     z-index: 1;
-    transition: all 0.3s linear;
+    transition: all 0.5s ease;
     opacity: 1;
+  }
+
+  .navigation_state_close{
+    visibility: visible;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    background-color: #202020;
+    width: 100%;
+    max-width: 520px;
+    height: 100vh;
+    z-index: 1;
+    opacity: 1;
+    right: -100%;
+    position: fixed;
+    top: 0;
+    transition: all 0.5s ease;
   }
 
   .navigation__item:last-child {
     margin-top: auto;
-    margin-bottom: 90px;
     margin-left: 0;
+  }
+  
+  .navigation__list_position_burger .navigation__item:last-child{
+    margin-bottom: 90px;
   }
   .navigation__button {
     display: block;
+    
   }
 
   .navigation__list_position_header {
-    display: none;
+    visibility: hidden;
+    opacity: 0;
   }
 }

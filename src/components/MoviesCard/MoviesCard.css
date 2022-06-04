@@ -5,8 +5,9 @@
   font-weight: 500;
   font-size: 15px;
   line-height: 18px;
+  width: 100%;
   max-width: 364px;
-  min-height: 271px;
+  height: 271px;
   background-color: #222222;
   color: #ffffff;
   overflow: auto;
@@ -72,6 +73,16 @@
   background-image: url('../../images/bookmark.svg');
 }
 
+.card__button_type_delete+label::before{
+  background-image: url('../../images/delete_card_icon.svg');
+}
+
+.card__info .card__button_type_delete:checked+label::before {
+  background-color: #EE3465;
+  background-image: none;
+  background-image: url('../../images/delete_card_icon.svg');
+}
+
 .card__button_type_save:checked+label::before {
   background-color: #3DDC84;
   background-image: url('../../images/bookmark_active.svg');
@@ -81,7 +92,7 @@
   width: 100%;
   max-width: 364px;
   height: 100%;
-  max-height: 203px;
+  height: 203px;
   background-image: url('../../images/image_card_photo.png');
   background-size:contain;
   background-position: center;
@@ -90,8 +101,10 @@
 
 @media screen and (max-width: 800px) {
   .card{
-    max-width: 339px;
+    width: 339px;
     height: 258px;
+    margin-right: auto;
+    margin-left:  auto;
   }
   .card__image{
     width: 339px;
@@ -99,4 +112,15 @@
   }
 }
 
+@media screen and (max-width: 400px) {
+  .card{
+    width: 300px;
+    height: 236px;
+  }
+  .card__image{
+    width: 300px;
+    height: 168px;
+    box-sizing: content-box;
+  }
+}
 

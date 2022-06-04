@@ -18,10 +18,10 @@ function AboutMe() {
             <p className='about-project__text about-project__text_aboutme'>Я родился в Ярославле, обучаюсь в Москве по программе программной инженерии. Я люблю читать литературу, а ещё увлекаюсь боксом, велопрогулками. Недавно начал кодить. После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами, продолжая учёбу в вузе.</p>
             <nav className='about-me__list'>
               <li className='about-me__item'>
-                <Link to='https://vk.com/ddenios' className='about-me__link'>VK</Link>
+                <a href='https://vk.com/ddenios' target='_blank' className='about-me__link'>VK</a>
               </li>
               <li className='about-me__item'>
-                <Link to='https://github.com/ddenyy' className='about-me__link'>GitHub</Link>
+                <a href='https://github.com/ddenyy' target='_blank' className='about-me__link'>GitHub</a>
               </li>
             </nav>
           </article>

@@ -1,0 +1,62 @@
+.movies {
+    width: 100%;
+    min-height: 222px;
+    background-color: #202020;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -1px;
+  }
+  
+  .movies__content {
+    width: 1280px;
+    max-width: calc(100% - 2 * 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .movies__line {
+    background-color: #aaaaaa;
+    opacity: 0.2;
+    width: 100%;
+    height: 1px;
+    margin-bottom: 10px;
+  }
+  
+  .movies__button {
+    cursor: pointer;
+  }
+  
+  .movies__button_type_add {
+    font-weight: 500;
+    font-size: 12px;
+    line-height: 15px;
+    width: 100%;
+    height: 36px;
+    max-width: 320px;
+    background-color: inherit;
+    border: 1px solid #424242;
+    border-radius: 12px;
+    padding: 11px 60px 9px 60px;
+    color: #ffffff;
+    margin-top: 50px;
+    margin-bottom: 80px;
+  }
+  
+  @media screen and (max-width: 812px) {
+    .movies__content {
+      max-width: calc(100% - 2 * 30px);
+    }
+  }
+  
+  @media screen and (max-width: 400px) {
+    .movies__content {
+      max-width: calc(100% - 2 * 10px);
+    }
+    .movies__button_type_add {
+        max-width: 240px;
+    }
+  }
+  

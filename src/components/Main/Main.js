@@ -4,7 +4,12 @@ import Promo from '../Promo/Promo';
 import AboutProject from '../AboutProject/AboutProject.js'; 
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
-function Main() {
+function Main({ setIsThemeDark }) {
+
+  React.useEffect(() => {
+    setIsThemeDark(false)
+  }, [])
+
   return (
     <main className='main'>
       <Promo />

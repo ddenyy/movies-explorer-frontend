@@ -28,9 +28,9 @@ function Navigation({ autorized, handleOnClickBurger, isOpenBurger, onClose }) {
         </nav>
       ) : (
         <>
-        
-          <nav className={`navigation navigation_type_autorized  navigation_state_${isOpenBurger ? 'open' : 'close'}`}>
           <button className={`navigation__button ${isOpenBurger ? 'navigation__button_state_exit' : ''}`} type='button' onClick={handleBurgerOpen}></button>
+          <nav className={`navigation navigation_type_autorized  navigation_state_${isOpenBurger ? 'open' : 'close'}`}>
+          {/* <button className={`navigation__button ${isOpenBurger ? 'navigation__button_state_exit' : ''}`} type='button' onClick={handleBurgerOpen}></button> */}
             <ul className={`navigation__list navigation__list_type_autorized navigation__list_position_${isOpenBurger ? 'burger' : 'header'}`}>
               {isOpenBurger ? (
                 <li className='navigation__item'>

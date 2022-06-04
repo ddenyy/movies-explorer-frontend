@@ -16,7 +16,6 @@
   flex-direction: column;
   color: #ffffff;
   margin-top: 175px;
-
   width: 1280px;
   max-width: calc(100% - 70px * 2);
 }

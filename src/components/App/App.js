@@ -14,8 +14,10 @@ import Footer from '../Footer/Footer';
 
 function App() {
 
-  const [isBurgerOpen, setIsBurgernOpen] = useState(false);
+  
 
+  const [isBurgerOpen, setIsBurgernOpen] = useState(false);
+  const [isThemeDark, setIsThemeDark] = useState(false);
 
   function closeAll() {
     setIsBurgernOpen(false);
@@ -25,17 +27,15 @@ function App() {
     setIsBurgernOpen(true);
   }
 
-
-
   return (
     <div className='page'>
-      <Header themeDark={true} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
+      <Header themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
       <Switch>
         <Route path='/movies'>
-          <Movies />
+          <Movies setIsThemeDark={setIsThemeDark} />
         </Route>
-        <Route path='/saved-movies'>
-          <SavedMovies />
+        <Route path='/save-movies'>
+          <SavedMovies setIsThemeDark={setIsThemeDark} />
         </Route>
         {/* <Route path='/profile'>
           <Profile />
@@ -47,7 +47,7 @@ function App() {
           <Register />
         </Route> */}
         <Route path='/' exact>
-          <Main />
+          <Main setIsThemeDark={setIsThemeDark}/>
         </Route>
       </Switch>
     <Footer/>
