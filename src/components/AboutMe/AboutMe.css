@@ -81,10 +81,12 @@
   .about-project__article_type_photo {
     order: -1;
   }
+
   .about-me__photo {
     max-width: 292px;
     max-height: 352px;
   }
+
   .about-me__list {
     margin-top: calc(100px - 10%);
   }
@@ -96,21 +98,26 @@
     flex-direction: column;
     align-items: center;
   }
+  
   .aboutme__title_position_article {
     font-size: 30px;
     line-height: 36px;
   }
+
   .about-project__text_aboutme {
     font-weight: 400;
     font-size: 11px;
     line-height: 16px;
   }
+
   .about-me__content {
     max-width: calc(100% - 2 * 14px);
   }
+
   .about-me__list {
     margin-top: 40px;
   }
+
   .about-me__item:last-child {
     display: none;
   }

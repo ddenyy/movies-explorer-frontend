@@ -1,0 +1,133 @@
+.profile {
+  font-family: "Inter";
+  font-style: normal;
+  margin: 0;
+  background-color: #202020;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: -1px;
+}
+
+.profile__content {
+  min-height: 626px;
+  height: 100%;
+  width: 1280px;
+  max-width: calc(100% - 2 * 70px);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.profile__name {
+  margin: 0;
+  margin-top: 74px;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: #ffffff;
+}
+
+.profile__form {
+  width: 100%;
+  max-width: 410px;
+  margin: 0;
+  margin-top: 123px;
+  color: #ffffff;
+}
+
+.profile__input {
+  margin: 0;
+  padding: 0;
+  text-align: right;
+  width: 100%;
+  background-color: #202020;
+  border: none;
+  color: #ffffff;
+}
+
+.profile__input:focus {
+  outline: none;
+}
+
+.profile__input_order_first {
+  margin-bottom: 16px;
+}
+
+.profile__label {
+  width: 100%;
+  position: relative;
+}
+
+.profile__signature {
+  top: 6px;
+  left: 0;
+  position: absolute;
+  color: red;
+  font-weight: 500;
+  font-size: 11px;
+  line-height: 13px;
+  color: #ffffff;
+}
+
+.profile__line {
+  border-bottom: 1px solid #424242;
+  margin-bottom: 17px;
+}
+
+.profile__button {
+  border: none;
+  background: none;
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 16px;
+}
+
+.profile__button:hover{
+  cursor: pointer;
+  opacity: 0.7;
+  transition: opacity 0.5s ease;
+}
+
+.profile__button_type_edit {
+  color: #FFFFFF;
+}
+
+.profile__button_type_exit{
+  color: #EE3465;
+}
+
+.button__container{
+  margin: 0;
+  margin-top: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+@media screen and (max-width: 800px) {
+  .profile__form{
+    margin-top: 96px;
+  }
+  .button__container{
+    margin-top: 210px;
+    margin-bottom: 40px;
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .profile__content{
+    max-width: calc(100% - 2 * 30px);
+  }
+  .profile__form{
+    margin-top: 80px;
+  }
+  .button__container{
+    margin-top: 380px;
+    margin-bottom: 40px;
+  }
+}

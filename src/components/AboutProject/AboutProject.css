@@ -90,7 +90,6 @@
   font-weight: 400;
   font-size: 14px;
   line-height: 17px;
-  /* position: relative; */
 }
 
 .about-project__line_first {
@@ -143,10 +142,12 @@
     max-width: calc(100% - 36px);
     margin-bottom: 60px;
   }
+  
   .about-project__info {
     flex-direction: column;
     gap: 56px;
   }
+
   .about-project__text {
     margin-top: 16px;
   }
@@ -157,37 +158,46 @@
     min-height: 641px;
     font-size: 18px;
   }
+
   .about-project__subtitle {
     font-size: 18px;
     line-height: 22px;
   }
+
   .about-project__text {
     font-size: 11px;
     line-height: 16px;
   }
+
   .about-project__title{
     line-height: 22px;
     margin-bottom: 28px;
   }
+
   .about-project__content {
     margin-top: 70px;
     margin-bottom: 0;
   }
+
   .about-project__meter {
     margin-top: 60px;
     height: 35px;
   }
+
   .about-project__meter_type_subtitle {
     margin-top: 10px;
     height: auto;
   }
+
   .about-project__line {
     font-size: 11px;
     line-height: 13px;
   }
+
   .about-project__line_first {
     width: 35%;
   }
+
   .about-project__info{
     margin-top: 60px;
   }

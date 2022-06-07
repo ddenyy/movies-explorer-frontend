@@ -11,11 +11,11 @@ import Register from '../Register/Register';
 import Header from '../Header/Header';
 import NavTab from '../NavTab/NavTab';
 import Footer from '../Footer/Footer';
+import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
 
-  
-
+  const [isAutorized, setIsAutorized] = useState(false);
   const [isBurgerOpen, setIsBurgernOpen] = useState(false);
   const [isThemeDark, setIsThemeDark] = useState(false);
 
@@ -29,28 +29,36 @@ function App() {
 
   return (
     <div className='page'>
-      <Header themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
       <Switch>
         <Route path='/movies'>
+          <Header autorized={isAutorized} themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
           <Movies setIsThemeDark={setIsThemeDark} />
+          <Footer />
         </Route>
         <Route path='/save-movies'>
+          <Header autorized={isAutorized} themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
           <SavedMovies setIsThemeDark={setIsThemeDark} />
+          <Footer />
         </Route>
-        {/* <Route path='/profile'>
-          <Profile />
+        <Route path='/profile'>
+          <Header autorized={isAutorized} themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
+          <Profile setIsThemeDark={setIsThemeDark} />
         </Route>
         <Route path='/signin'>
           <Login />
         </Route>
         <Route path='/signup'>
           <Register />
-        </Route> */}
+        </Route>
         <Route path='/' exact>
-          <Main setIsThemeDark={setIsThemeDark}/>
+          <Header autorized={isAutorized} themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />
+          <Main setIsThemeDark={setIsThemeDark} />
+          <Footer />
+        </Route>
+        <Route path='/'>
+          <PageNotFound/>
         </Route>
       </Switch>
-    <Footer/>
     </div>
   );
 }

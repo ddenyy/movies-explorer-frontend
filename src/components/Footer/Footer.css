@@ -74,12 +74,14 @@
     gap: 12px;
     align-items: center;
   }
+
   .footer__date {
     order: 1;
     margin-right: auto;
     margin-left: auto;
     color: #8b8b8b;
   }
+  
   .footer__title {
     font-size: 12px;
     line-height: 15px;

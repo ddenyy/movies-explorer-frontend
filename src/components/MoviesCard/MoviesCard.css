@@ -77,6 +77,14 @@
   background-image: url('../../images/delete_card_icon.svg');
 }
 
+.card__button_type_save:hover+label::before{
+  cursor: pointer;
+}
+
+.card__button_type_delete:hover+label::before{
+  cursor: pointer;
+}
+
 .card__info .card__button_type_delete:checked+label::before {
   background-color: #EE3465;
   background-image: none;

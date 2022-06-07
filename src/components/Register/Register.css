@@ -1,0 +1,144 @@
+.register {
+  width: 100%;
+  height: 100%;
+  font-family: "Inter";
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.register__content {
+  width: 100%;
+  max-width: 396px;
+  margin-top: 70px;
+}
+
+.profile__name_position_register {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  text-align: left;
+}
+
+.register__form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.register__input {
+  margin: 0;
+  padding: 0;
+  padding-left: 15px;
+  height: 46px;
+  width: calc(100% - 15px);
+  border: none;
+  color: #ffffff;
+  background: #2f2f2f;
+  border-radius: 8px;
+}
+
+.register__input:focus {
+  outline: none;
+}
+
+.register__input_state_error {
+  color: #ee3465;
+}
+
+.label__signature {
+  margin: 0;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #8b8b8b;
+  margin-bottom: 10px;
+}
+
+.register__error {
+  position: absolute;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 10px;
+  line-height: 12px;
+  color: #ee3465;
+  left: 0;
+  bottom: -15px;
+}
+
+.register__error_state_hidden {
+  display: none;
+}
+
+.register__button {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  border: none;
+  background-color: inherit;
+  margin-left: 6px;
+}
+
+.register__button:hover {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
+}
+
+.register__button_type_registration {
+  width: 100%;
+  max-width: 396px;
+  margin-top: 70px;
+  height: 45px;
+  text-align: center;
+  background-color: #4285f4;
+  color: #ffffff;
+  border-radius: 3px;
+}
+
+.register__button_type_enter {
+  color: #4285f4;
+  text-decoration: none;
+}
+
+.register__text {
+  margin: 0;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: #8b8b8b;
+  margin-top: 16px;
+}
+
+@media screen and (max-width: 410px) {
+  .register__content {
+    max-width: calc(100% - 2 * 30px);
+  }
+  .register__logo {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .profile__name_position_register {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 80px;
+  }
+  .register__button_type_registration {
+    margin-top: 157px;
+  }
+  .register__text {
+    margin-top: 14px;
+    margin-bottom: 30px;
+    font-size: 12px;
+    line-height: 15px;
+  }
+  .register__button {
+    font-size: 12px;
+    line-height: 15px;
+  }
+}

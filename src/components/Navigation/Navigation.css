@@ -109,6 +109,9 @@
   background-repeat: no-repeat;
   background-size: cover;
   display: none;
+  position: absolute;
+  top: 15px;
+  right: 30px;
 }
 
 .navigation__button_state_exit {
@@ -118,7 +121,7 @@
   position: absolute;
   top: 22px;
   right: 22px;
-  z-index: 12;
+  z-index: 61;
 }
 
 .navigation__cover {
@@ -131,6 +134,7 @@
   opacity: 0;
   top: 0;
   right: 0;
+  z-index: 50;
 }
 
 .navigation__cover_state_open {
@@ -146,9 +150,15 @@
   border-bottom: 0;
 }
 
+.navigation__button_type_hidden{
+  display: none;
+  
+}
+
 @media screen and (max-width: 800px) {
   .navigation_type_autorized {
     justify-content: flex-end;
+    z-index: 30;
   }
  
   .navigation_state_open {
@@ -164,7 +174,7 @@
     height: 100vh;
     top: 0;
     right: 0;
-    z-index: 1;
+    z-index: 60;
     transition: all 0.5s ease;
     opacity: 1;
   }
@@ -197,7 +207,6 @@
   }
   .navigation__button {
     display: block;
-    
   }
 
   .navigation__list_position_header {
