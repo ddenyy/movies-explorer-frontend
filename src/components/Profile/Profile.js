@@ -1,5 +1,6 @@
 import React from "react";
 import './Profile.css';
+import { Link } from 'react-router-dom';
 
 function Profile({ setIsThemeDark }) {
   React.useEffect(() => {
@@ -22,7 +23,7 @@ function Profile({ setIsThemeDark }) {
         </form>
         <div className='button__container'>
           <button className='profile__button profile__button_type_edit'>Редактировать</button>
-          <button className='profile__button profile__button_type_exit'>Выйти из аккаунта</button>
+          <Link className='profile__button profile__button_type_exit' to='/signin'>Выйти из аккаунта</Link>
         </div>
       </div>
     </section>

@@ -15,7 +15,7 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 
 function App() {
 
-  const [isAutorized, setIsAutorized] = useState(false);
+  const [isAutorized, setIsAutorized] = useState(true);
   const [isBurgerOpen, setIsBurgernOpen] = useState(false);
   const [isThemeDark, setIsThemeDark] = useState(false);
 
