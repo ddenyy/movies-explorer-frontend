@@ -12,6 +12,7 @@ import Header from '../Header/Header';
 import NavTab from '../NavTab/NavTab';
 import Footer from '../Footer/Footer';
 import PageNotFound from '../PageNotFound/PageNotFound';
+import Preloader from '../Preloader/Preloader';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
 
   return (
     <div className='page'>
+    <Preloader isOpen={false}/>
       <Switch>
         <Route path='/movies'>
           <Header autorized={isAutorized} themeDark={isThemeDark} handleOnClickBurger={handleBurgerionOpen} isOpenBurger={isBurgerOpen} onClose={closeAll} />

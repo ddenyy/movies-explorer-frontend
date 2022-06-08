@@ -5,7 +5,7 @@
   align-items: center;
   list-style: none;
   z-index: 200;
-  font-family: "Inter";
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   font-style: normal;
   visibility: visible;
 }

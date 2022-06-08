@@ -1,6 +1,6 @@
 import React from "react";
 import './MoviesCard.css';
-
+import photo from '../../images/image_card_photo.png'
 function MoviesCard({ id, isSavedMovies }) {
 
   return (
@@ -11,7 +11,7 @@ function MoviesCard({ id, isSavedMovies }) {
           <input type="checkbox" className={`card__button_type_save ${isSavedMovies ? 'card__button_type_delete' : ''}`} id={id} name="save-movie-button" value="yes"></input>
           <label htmlFor={id}></label>
       </div>
-      <div className='card__image'></div>
+      <img src={photo} className='card__image'/>
     </div>
   );
 }

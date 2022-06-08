@@ -3,6 +3,7 @@
   display: flex;
   flex-direction: row;
   align-items: center;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
 }
 
 .search-form_position_movies {
@@ -56,6 +57,11 @@
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+
+.search-form__button_type_send:hover{
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
 }
 
 .search-form__button_type_toggle {

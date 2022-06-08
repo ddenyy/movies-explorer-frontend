@@ -1,4 +1,5 @@
 .techs {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -91,13 +92,21 @@
 }
 
 @media screen and (max-width: 400px) {
+  .techs{
+    background-color: #202020;
+  }
   .techs__title_main {
     font-size: 30px;
     line-height: 36px;
   }
 
+  .about-project__border_position_techs{
+    background-color: #000000;
+  }
+
   .techs__content{
     margin-bottom: 70px;
+    max-width: calc(100% - 36px);
   }
 
   .techs__subtitle {

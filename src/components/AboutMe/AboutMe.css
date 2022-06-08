@@ -1,4 +1,5 @@
 .about-me {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -9,6 +10,7 @@
   margin-top: -1px;
   background-color: #202020;
   color: #ffffff;
+  
 }
 
 .about-me__content {

@@ -5,7 +5,7 @@ function SearchForm () {
 
     return (
         <form className='search-form search-form_position_movies'>
-            <input className='search-form__input' type='text' placeholder="фильм"></input>
+            <input required className='search-form__input' type='text' placeholder="фильм"></input>
             <button className="search-form__button search-form__button_type_send"></button>
             <div className='menu-toggle__container'>
                 <p className='menu-toggle__text'>Короткометражки</p>
