@@ -1,0 +1,102 @@
+.popup {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  font-style: normal;
+  display: flex;
+  visibility: hidden;
+  opacity: 0;
+  background: rgba(0,0,0, 0.3);
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+}
+
+.popup_opened {
+  visibility: visible;
+  opacity: 1;
+  transition: visibility 0s, opacity 0.5s linear;
+}
+
+/* rgba(0, 0, 0, 0.15) */
+
+.popup__window {
+  position: relative;
+  border-radius: 3px;
+  box-shadow: 0px 0px 25px;
+  color: #073042;
+  background-color: #073042;
+  max-width: 430px;
+  width: 100%;
+}
+
+.popup_loader {
+  background: rgba(0, 0, 0, 0);
+  z-index: 200;
+}
+
+.popup__title_access {
+  font-style: normal;
+  font-weight: 900;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  max-width: 358px;
+  margin-right: auto;
+  margin-left: auto;
+  color: #ffffff;
+}
+
+.popup__button-exit {
+  outline: none;
+  background: transparent;
+  display: block;
+  width: 16px;
+  height: 16px;
+  background-image: url("../../images/Close_Icon.svg");
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  border: 0;
+  background-size: cover;
+}
+
+.popup__button-exit:hover {
+  cursor: pointer;
+  opacity: 0.6;
+  transition: opacity 0.3s linear;
+}
+
+.popup__picture_access {
+  margin: auto;
+  margin-top: 60px;
+  margin-bottom: 32px;
+  width: 120px;
+  height: 120px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-image: url('../../images/Union.svg');
+}
+
+.popup__picture_access_error {
+  background-image: url('../../images/Union\(error\).svg');
+}
+
+@media screen and (max-width: 539px) {
+  .popup__button-exit {
+    width: 20px;
+    height: 20px;
+    right: 0px;
+    top: -39px;
+  }
+}
+
+@media screen and (max-width: 460px) {
+  .popup__window {
+    margin-left: 6vw;
+    margin-right: 6vw;
+  }
+}

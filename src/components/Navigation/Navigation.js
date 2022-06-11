@@ -44,7 +44,7 @@ function Navigation({ autorized, handleOnClickBurger, isOpenBurger, onClose }) {
                 <NavLink className={`navigation__link navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} activeClassName='navigation__link_state_active' exact={true} to='/save-movies' onClick={isOpenBurger ? handleBurgerOpen : () => { }}>Сохранённые фильмы</NavLink>
               </li>
               <li className="navigation__item">
-                <Link to='/profile' className={`navigation__link navigation__link_type_account navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`}></Link>
+                <NavLink to='/profile' className={`navigation__link navigation__link_type_account navigation__link_position_${isOpenBurger ? 'burger' : 'header'}`} onClick={isOpenBurger ? handleBurgerOpen : () => { }}></NavLink>
               </li>
             </ul>
           </nav>

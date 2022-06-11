@@ -46,8 +46,6 @@
   margin: 0;
   width: 270px;
   height: 327px;
-  background-image: url("../../images/myPhoto.jpg");
-  background-position: center;
   background-size: cover;
   border-radius: 10px;
 }

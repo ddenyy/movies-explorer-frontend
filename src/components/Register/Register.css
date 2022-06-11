@@ -68,8 +68,8 @@
   bottom: -15px;
 }
 
-.register__error_state_hidden {
-  display: none;
+.register__error_type_email{
+  font-size: 8px;
 }
 
 .register__button {
