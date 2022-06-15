@@ -12,6 +12,7 @@
 }
 /* 168 */
 .movies-card-list__content {
+  position: relative;
   justify-content: center;
   margin-top: 70px;
   margin-bottom: 30px;
@@ -22,6 +23,7 @@
   grid-template-columns: repeat(auto-fill, minmax(300px, 364px));
   grid-template-rows: repeat(auto-fill, minmax(168px, 271px));
 }
+
 
 @media screen and (max-width: 892px) {
   .movies-card-list__content {

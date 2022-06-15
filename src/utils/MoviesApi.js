@@ -8,7 +8,7 @@ export const getMovies = () => {
         }
     })
         .then((res) => {
-            console.log(res)
+            return res.json();
         })
 }
 

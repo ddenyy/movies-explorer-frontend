@@ -65,46 +65,38 @@
   transition: opacity 0.5s ease;
 }
 
-.search-form__button_type_toggle {
+
+.switch-btn {
   display: inline-block;
-  width: 36px;
-  height: 20px;
+  width: 36px; /* ширина */
+  height: 20px; /* высота */
+  border-radius: 20px; /* радиус скругления */
+  background: #bfbfbf; /* цвет фона */
+  z-index: 0;
   margin: 0;
-  vertical-align: top;
-  background: #EBEBEB;
-  border: 1px solid #EBEBEB;
-  border-radius: 20px;
-  outline: none;
-  appearance: none;
-  transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
-}
-
-.search-form__button_type_toggle::after {
-  content: "";
-  display: inline-block;
-  position: absolute;
-  left: -1px;
-  top: -1px;
-  width: 20px;
-  height: 20px;
-  background-color: #F5F5F5;
-  border-radius: 50%;
-  transform: translateX(0);
-  transition: all 0.3s cubic-bezier(0.2, 0.85, 0.32, 1.2);
-}
-
-.search-form__button_type_toggle:hover {
+  padding: 0;
+  border: none;
   cursor: pointer;
+  position: relative;
+  transition-duration: 300ms; /* анимация */
 }
-
-.search-form__button_type_toggle:checked{
-  background-color: #3DDC84;
-  border: 1px solid #3DDC84;
+.switch-btn::after {
+  content: "";
+  height: 20px; /* высота кнопки */
+  width: 20px; /* ширина кнопки */
+  border-radius: 17px;
+  background: #fff; /* цвет кнопки */
+  top: 0px; /* положение кнопки по вертикали относительно основы */
+  left: 0px; /* положение кнопки по горизонтали относительно основы */
+  transition-duration: 200ms; /* анимация */
+  position: absolute;
+  z-index: 1;
 }
-
-.search-form__button_type_toggle:checked::after {
-  transform: translateX(100%);
-  transition: transform 0.3s ease;
+.switch-on {
+  background: #3DDC84;
+}
+.switch-on::after {
+  left: 20px;
 }
 
 @media screen and (max-width: 800px) {

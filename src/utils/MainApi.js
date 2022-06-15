@@ -28,7 +28,7 @@ class Api {
       method: 'GET',
       headers: this._getHeaders(),
     })
-    .then(this._checkResponse)
+      .then(this._checkResponse)
   };
 
   updateUserInfo(newData) {
@@ -40,8 +40,46 @@ class Api {
         email: newData.email,
       })
     })
+      .then(this._checkResponse)
+  }
+
+  getAllSavedMovies() {
+    return fetch(`${this._url}/movies`, {
+      method: 'GET',
+      headers: this._getHeaders(),
+    })
+      .then(this._checkResponse)
+  }
+
+  saveMovies(movie) {
+    return fetch(`${this._url}/movies`, {
+      method: 'POST',
+      headers: this._getHeaders(),
+      body: JSON.stringify({
+        'country': `${movie.country === null ? 'none' : movie.country}`,
+        'director': movie.director,
+        'duration': movie.duration,
+        'year': movie.year,
+        'description': movie.description,
+        'image': `https://api.nomoreparties.co/${movie.image.url}`,
+        'trailerLink': movie.trailerLink,
+        'nameRU': movie.nameRU,
+        'nameEN': movie.nameEN,
+        'thumbnail': `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
+        'movieId': movie.id,
+      })
+    })
+      .then(this._checkResponse)
+  }
+
+  deleteMovie(id) {
+    return fetch(`${this._url}/movies/${id}`, {
+      method: 'DELETE',
+      headers: this._getHeaders()
+    })
     .then(this._checkResponse)
   }
+  
 }
 
 const api = new Api({

@@ -7,11 +7,12 @@ import { Link } from 'react-router-dom';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 
-function Login ({ handleLogin }) {
+function Login ({ handleLogin, setIsThemeDark }) {
     const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
 
     React.useEffect(() => {
         resetForm();
+        setIsThemeDark(true)
       }, [resetForm])
 
 

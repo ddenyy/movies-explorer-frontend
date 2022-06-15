@@ -2,19 +2,23 @@ import React from "react";
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/MoviesCard';
 
-function MoviesCardList({ isSavedMovies }) {
+function MoviesCardList({ movies, handleSaveMovie, handleDeleteSaveMovie, isSavedMovies, checkSavedMovie, countMovies }) {
+
   return (
     <article className='movies-card-list'>
       <div className='movies-card-list__content'>
-        <MoviesCard isSavedMovies={isSavedMovies} id={1}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={2}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={3}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={4}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={5}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={6}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={7}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={8}/>
-        <MoviesCard isSavedMovies={isSavedMovies} id={9}/>
+        {movies.slice(0, countMovies).map((movie) => {
+          return (
+            <MoviesCard
+              key={movie.movieId || movie.id}
+              movie={movie}
+              handleSaveMovie={handleSaveMovie}
+              handleDeleteSaveMovie={handleDeleteSaveMovie}
+              isSavedMovies={isSavedMovies}
+              checkSavedMovie={checkSavedMovie}
+            />
+          );
+        })}
       </div>
     </article>
   );
