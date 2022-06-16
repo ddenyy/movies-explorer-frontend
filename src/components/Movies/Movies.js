@@ -5,39 +5,44 @@ import MoviesCardList from '../MoviesCardList/MoviesCardList';
 
 function Movies({ setIsThemeDark, setIsShowHeader, movies, handleSaveMovie, handleDeleteSaveMovie, handleGetMovies, checkSavedMovie, handleCheckBox, isShortFilter, isSavedMovies }) {
 
-  React.useEffect(() => {
-    setIsThemeDark(true);
-    setIsShowHeader(true);
-  }, [])
-
-  React.useEffect(() => {
-    handleHiddenButton();
-    setcountAdder(3);
-    setcountMovies(12);
-    handleShowMovies();
-  }, [movies])
-
   const [countMovies, setcountMovies] = React.useState(12);
   const [countAdder, setcountAdder ] = React.useState(3);
   const [isHuddenButton, setIsHuddenButton] = React.useState(true);
 
-  window.addEventListener('resize', () => {
-    handleShowMovies();
-  })
+  React.useEffect(() => {
+    setIsThemeDark(true);
+    setIsShowHeader(true);
+    handleHiddenButton();
+    return (
+      window.removeEventListener('resize', handleShowMovies)
+    );
+  }, [])
+
+  React.useEffect(() => {
+    if (window.innerWidth <= 1280 & window.innerWidth > 769) {
+      setcountMovies(12)
+    } else if (window.innerWidth < 769 & window.innerWidth > 481) {
+      setcountMovies(8)
+    } else if (window.innerWidth < 481 & window.innerWidth > 0){
+      setcountMovies(5)
+    } else {
+      setcountMovies(12)
+    }
+  }, [window.innerWidth])
+
+
+  window.addEventListener('resize', handleShowMovies);
+  
 
   function handleShowMovies () {
     setTimeout(() => {
-      if (window.innerWidth <= 1280 & window.innerWidth > 769) {
-        setcountMovies(12)
+      if (window.innerWidth > 1279) {
         setcountAdder(3)
-      } else if (window.innerWidth < 769 & window.innerWidth > 481) {
-        setcountMovies(8)
+      } else if (window.innerWidth <= 1280 & window.innerWidth >  481) {
         setcountAdder(2)
       } else if (window.innerWidth < 481 & window.innerWidth > 0){
-        setcountMovies(5)
         setcountAdder(1)
       } else {
-        setcountMovies(12)
         setcountAdder(3)
       }
     }, 1000)

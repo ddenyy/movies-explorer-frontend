@@ -2,9 +2,8 @@ import React from 'react';
 import './InfoTooltip.css';
 import {infoToolTipContext} from '../../context/infoToolTipContext.js';
 
-function InfoTooltip({ onClose, useEscapePress }) {
+function InfoTooltip({ onClose }) {
   const Context = React.useContext(infoToolTipContext);
-  // useEscapePress(onClose, infoToolTipContext.isOpen);
 
   return (
     <div className={`popup ${Context.isOpen && "popup_opened"}`}>
@@ -17,6 +16,5 @@ function InfoTooltip({ onClose, useEscapePress }) {
   );
 
 }
-
 
 export default InfoTooltip;

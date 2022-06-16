@@ -37,7 +37,9 @@ function MoviesCard({ isSavedMovies, movie, handleSaveMovie, handleDeleteSaveMov
           <button onClick={handleMovie} type='button' className={`switch-btn_position_movie ${isLiked ? 'switch-on_position_movie' : ''}`}></button>
         }
       </div>
+      <a href={trailerLink} target='_blank'>
       <img src={`${isSavedMovies ? image : `https://api.nomoreparties.co/${image.url}`}`} className='card__image' />
+      </a>
     </div>
   );
 }

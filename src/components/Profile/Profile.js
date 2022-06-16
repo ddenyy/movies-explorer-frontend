@@ -10,13 +10,13 @@ function Profile({ currentUser, setIsThemeDark, handleUpdateInfo, handleExit }) 
   const refInputName = useRef();
   const refInputEmail = useRef();
   const contextEditProfile = React.useContext(infoToolTipContext);
-  const { values, handleChange ,resetForm, errors, isValid } = useFormWithValidation();
-  
+  const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
+
   // через ref обращаемся напрямую к инпутам и ставим им значение текущего пользователя
   React.useEffect(() => {
     refInputName.current.value = currentUser.name;
     refInputEmail.current.value = currentUser.email;
-  }, [])
+  }, [handleUpdateInfo])
 
   React.useEffect(() => {
     setIsEditInfo(false);
@@ -31,7 +31,7 @@ function Profile({ currentUser, setIsThemeDark, handleUpdateInfo, handleExit }) 
   }
 
   function handleSubmit() {
-      handleUpdateInfo(values.email, values.name);
+    handleUpdateInfo(values.email, values.name);
   }
 
   return (

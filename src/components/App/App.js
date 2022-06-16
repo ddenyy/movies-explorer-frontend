@@ -21,7 +21,6 @@ import ProtectRoute from '../ProtectedRoute/ProtectedRoute';
 
 
 function App() {
-
   const [isShowHeader, setIsShowHeader] = useState(null);
   const [isAutorized, setIsAutorized] = useState(null);
   const [isBurgerOpen, setIsBurgernOpen] = useState(false);
@@ -29,12 +28,11 @@ function App() {
   const [isLoader, setLoader] = useState(false);
   const [isShortFilter, setIsShortFilter] = useState(false);
   const [isShortFilterForSaveMovies, setIsShortFilterForSaveMovies] = useState(false)
-  const [movieReq, setMovieReq] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState({});
   const [beatfilmMovies, setbeatfilmMovies] = React.useState([]);
   const [sortedMovies, setSortedMovies] = React.useState([]);
   const [saveMovies, setSaveMovies] = React.useState([]);
-
+  const [sortedSaveMovies, setSortedSaveMovies] = React.useState([]);
   const [currentInfoToolTip, setCurrentInfoToolTip] = React.useState({
     isSucces: false,
     isOpen: false,
@@ -42,36 +40,25 @@ function App() {
     isSuccesUpdateInfo: true,
   });
 
-
   const history = useHistory();
 
   React.useEffect(() => {
-    // рендер страницы
-    localStorage.removeItem('reqFilmValue');
-    if (currentUser || isAutorized) {
-      return api.getUserInfo()
-        .then((res) => {
-          setCurrentUser(res);
-        })
-        .catch((err) => console.log(err))
-    }
-  }, [isAutorized]);
-
-  React.useEffect(() => {
     checkToken();
+    // проверям авторизован ли пользователь и запрашиваем информацию с сервера
     if (currentUser || isAutorized) {
       Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies(), api.getUserInfo()])
         .then(([moviesRes, saveMoviesRes, userInfo]) => {
+          setCurrentUser(userInfo);
           setbeatfilmMovies(moviesRes);
           const savedMoviesList = saveMoviesRes.movies.filter(
             (item) => item.owner === userInfo._id
           );
           setSaveMovies(savedMoviesList);
+          setSortedSaveMovies(savedMoviesList);
         })
         .catch((e) => console.log(e))
     }
   }, [isAutorized]);
-
 
   function closeAll() {
     setIsBurgernOpen(false);
@@ -99,6 +86,7 @@ function App() {
     }
   }
 
+  // открываем и закрываем бургерное меню
   function handleBurgerionOpen() {
     setIsBurgernOpen(true);
   }
@@ -131,25 +119,6 @@ function App() {
           setLoader(false);
         })
     );
-  }
-
-  // управляет возможность закрывать попапы по esc
-  function useEscapePress(callback, dependency) {
-    React.useEffect(() => {
-      if (dependency) {
-        const onEscClose = e => {
-          if (e.key === 'Escape') {
-            callback()
-          }
-        }
-        document.addEventListener('keyup', onEscClose);
-        // при размонтировании удалим обработчик данным колбэком
-        return () => {
-          document.removeEventListener('keyup', onEscClose)
-        };
-      }
-      // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [dependency])
   }
 
   function handleLogin(email, password) {
@@ -226,9 +195,11 @@ function App() {
     setIsShowHeader(false);
     setSaveMovies([]);
     setSortedMovies([]);
+    setSortedSaveMovies([]);
     history.push('/signin');
   }
 
+  // ф-ция сохранения фильма
   function handleSaveMovie(movie) {
     setLoader(true);
     api.saveMovies(movie)
@@ -236,6 +207,7 @@ function App() {
         if (res.movie) {
           const newSavedMovies = [res.movie, ...saveMovies];
           setSaveMovies(newSavedMovies)
+          setSortedSaveMovies(newSavedMovies);
         } else {
           throw new Error('При сохранении фильма произошла ошибка.')
         }
@@ -251,8 +223,10 @@ function App() {
       .finally(() => setLoader(false))
   }
 
+  // ф-ция удаления сохранённого фильма
   function handleDeleteSaveMovie(movie) {
     setLoader(true);
+    // находим фильм который хотим удалить в savedMovies и вытаскиваем из него _id чтоб удалить из нашей БД на беке
     const thisId = movie.id || movie.movieId;
     const thisMovie = saveMovies.find((item) => item.movieId === thisId);
     api.deleteMovie(thisMovie._id)
@@ -262,13 +236,14 @@ function App() {
         } else {
           const newSaveMoviesList = saveMovies.filter((c) => c.movieId !== thisId);
           setSaveMovies(newSaveMoviesList);
+          setSortedSaveMovies(newSaveMoviesList);
         }
       })
       .catch((e) => console.log(`ошибка при удалении фильма: ${e}`))
       .finally(() => setLoader(false))
   }
 
-
+  // проверяем сохранён ли фильм был чтоб отобразить верное состояние лайка
   function checkSavedMovie(movie) {
     return (movie.isSaved = saveMovies.some(
       (saveMovie) => saveMovie.movieId === movie.id
@@ -276,7 +251,6 @@ function App() {
   }
 
   function handleGetMovies(keyword) {
-    setMovieReq(keyword);
     const key = new RegExp(keyword, "gi");
     const findedMovies = beatfilmMovies.filter((item) => {
       return key.test(item.nameRU) || key.test(item.nameEN)
@@ -289,14 +263,33 @@ function App() {
       })
     }
     const checkedSaveMovies = findedMovies.map((movie) => {
-      movie.isSaved = saveMovies.some((saveMovie) => {
-        return saveMovie.movieId === movie.id
-      });
+      movie.isSaved = checkSavedMovie(movie);
       return movie;
     });
     setSortedMovies(checkedSaveMovies);
   }
 
+  function handleGetSavedMovies(keyword) {
+    // если ничего не ввёл, отобразим все сохранённые фильмы
+    if (keyword === '') {
+      setSortedSaveMovies(saveMovies);
+      return;
+    }
+    const key = new RegExp(keyword, "gi");
+    const findedMovies = saveMovies.filter((item) => {
+      return key.test(item.nameRU) || key.test(item.nameEN)
+    });
+    if (findedMovies.length === 0) {
+      setCurrentInfoToolTip({
+        isSucces: false,
+        isOpen: true,
+        text: 'Ничего не найдено :(',
+      })
+    }
+    setSortedSaveMovies(findedMovies);
+  }
+
+  // управляет фильтром на короткометражки его состоянием вкл или выкл
   function handleCheckBox(isSaveMoviePosition) {
     if (isSaveMoviePosition) {
       setIsShortFilterForSaveMovies(!isShortFilterForSaveMovies)
@@ -304,7 +297,7 @@ function App() {
       setIsShortFilter(!isShortFilter);
     }
   }
-
+  // управляет логикой фильтра короткометражек
   function filterShortMovies(arr, isSaveMoviePosition) {
     if (arr) {
       if (isSaveMoviePosition) {
@@ -363,8 +356,6 @@ function App() {
               checkSavedMovie={checkSavedMovie}
               handleCheckBox={handleCheckBox}
               isShortFilter={isShortFilter}
-              movieReq={movieReq}
-              setMovieReq={setMovieReq}
               isSavedMovies={false}
             />
             <ProtectRoute
@@ -373,11 +364,12 @@ function App() {
               autorized={isAutorized}
               setIsThemeDark={setIsThemeDark}
               setIsShowHeader={setIsShowHeader}
-              saveMovies={filterShortMovies(saveMovies, true)}
+              saveMovies={filterShortMovies(sortedSaveMovies, true)}
               isSavedMovies={true}
               handleDeleteSaveMovie={handleDeleteSaveMovie}
               handleCheckBox={handleCheckBox}
               isShortFilter={isShortFilterForSaveMovies}
+              handleGetSavedMovies={handleGetSavedMovies}
             />
             <ProtectRoute
               path='/profile'
@@ -402,7 +394,6 @@ function App() {
           <Footer />
           <InfoTooltip
             onClose={closeAll}
-            useEscapePress={useEscapePress}
           />
         </div>
       </infoToolTipContext.Provider>

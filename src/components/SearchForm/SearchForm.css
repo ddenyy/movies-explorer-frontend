@@ -65,6 +65,11 @@
   transition: opacity 0.5s ease;
 }
 
+.search-form__button_type_send:disabled{
+  opacity: 0.3;
+  cursor: default;
+}
+
 
 .switch-btn {
   display: inline-block;
