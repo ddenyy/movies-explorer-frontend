@@ -99,6 +99,14 @@
   left: 20px;
 }
 
+.search-form__error{
+  color: red;
+  position: absolute;
+  top: 140px;
+  left: 20px;
+  font-size: 12px;
+}
+
 @media screen and (max-width: 800px) {
   .search-form_position_movies{
     flex-direction: column;
@@ -114,6 +122,11 @@
     margin-left: 10px;
     right: 7px;
   }
+
+  .search-form__error{
+    top: 60px;
+    left: 20px;
+  }
 }
 
 @media screen and (max-width: 330px) {
@@ -124,5 +137,10 @@
 
   .search-form__button_type_send{
     position: absolute;
+  }
+
+  .search-form__error{
+    top: 50px;
+    left: 10px;
   }
 }

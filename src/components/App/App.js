@@ -19,6 +19,7 @@ import Preloader from '../Preloader/Preloader';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectRoute from '../ProtectedRoute/ProtectedRoute';
 
+
 function App() {
 
   const [isShowHeader, setIsShowHeader] = useState(null);
@@ -27,7 +28,8 @@ function App() {
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [isShortFilter, setIsShortFilter] = useState(false);
-  const [ movieReq, setMovieReq ] = React.useState('');
+  const [isShortFilterForSaveMovies, setIsShortFilterForSaveMovies] = useState(false)
+  const [movieReq, setMovieReq] = React.useState('');
   const [currentUser, setCurrentUser] = React.useState({});
   const [beatfilmMovies, setbeatfilmMovies] = React.useState([]);
   const [sortedMovies, setSortedMovies] = React.useState([]);
@@ -42,14 +44,13 @@ function App() {
 
 
   const history = useHistory();
-  
+
   React.useEffect(() => {
     // рендер страницы
     localStorage.removeItem('reqFilmValue');
     if (currentUser || isAutorized) {
       return api.getUserInfo()
         .then((res) => {
-          console.log(res)
           setCurrentUser(res);
         })
         .catch((err) => console.log(err))
@@ -58,16 +59,18 @@ function App() {
 
   React.useEffect(() => {
     checkToken();
-    Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies(), api.getUserInfo()])
-      .then(([moviesRes, saveMoviesRes, userInfo]) => {
-        setbeatfilmMovies(moviesRes);
-        const savedMoviesList = saveMoviesRes.movies.filter(
-          (item) => item.owner === userInfo._id
-        );
-        setSaveMovies(savedMoviesList);
-      })
-      .catch((e) => console.log(e))
-  }, []);
+    if (currentUser || isAutorized) {
+      Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies(), api.getUserInfo()])
+        .then(([moviesRes, saveMoviesRes, userInfo]) => {
+          setbeatfilmMovies(moviesRes);
+          const savedMoviesList = saveMoviesRes.movies.filter(
+            (item) => item.owner === userInfo._id
+          );
+          setSaveMovies(savedMoviesList);
+        })
+        .catch((e) => console.log(e))
+    }
+  }, [isAutorized]);
 
 
   function closeAll() {
@@ -85,7 +88,6 @@ function App() {
     if (jwt) {
       MoviesAuth.getCurrentUserInfo(jwt)
         .then((res) => {
-          console.log(res)
           if (res.email) {
             setCurrentUser(res);
             setIsAutorized(true);
@@ -218,9 +220,12 @@ function App() {
   // управляет выходом пользователя из аккаунта
   function handleExit() {
     localStorage.removeItem('jwt');
+    localStorage.removeItem('reqFilmValue');
     setCurrentUser({});
     setIsAutorized(false);
     setIsShowHeader(false);
+    setSaveMovies([]);
+    setSortedMovies([]);
     history.push('/signin');
   }
 
@@ -235,12 +240,14 @@ function App() {
           throw new Error('При сохранении фильма произошла ошибка.')
         }
       })
-      .catch(e => {setCurrentInfoToolTip({
-        isSuccesUpdateInfo: false,
-        isSucces: false,
-        isOpen: true,
-        text: `Ошибка ${e}`,
-      })})
+      .catch(e => {
+        setCurrentInfoToolTip({
+          isSuccesUpdateInfo: false,
+          isSucces: false,
+          isOpen: true,
+          text: `Ошибка ${e}`,
+        })
+      })
       .finally(() => setLoader(false))
   }
 
@@ -290,13 +297,23 @@ function App() {
     setSortedMovies(checkedSaveMovies);
   }
 
-  function handleCheckBox() {
-    setIsShortFilter(!isShortFilter);
+  function handleCheckBox(isSaveMoviePosition) {
+    if (isSaveMoviePosition) {
+      setIsShortFilterForSaveMovies(!isShortFilterForSaveMovies)
+    } else {
+      setIsShortFilter(!isShortFilter);
+    }
   }
 
-  function filterShortMovies(arr) {
-    if (arr) { return arr.filter((movie) => isShortFilter ? movie.duration <= 40 : true) }
-	}
+  function filterShortMovies(arr, isSaveMoviePosition) {
+    if (arr) {
+      if (isSaveMoviePosition) {
+        return arr.filter((movie) => isShortFilterForSaveMovies ? movie.duration <= 40 : true)
+      } else {
+        return arr.filter((movie) => isShortFilter ? movie.duration <= 40 : true)
+      }
+    }
+  }
 
   return (
     <currentUserContext.Provider value={currentUser}>
@@ -336,7 +353,7 @@ function App() {
             <ProtectRoute
               path='/movies'
               component={Movies}
-              movies={filterShortMovies(sortedMovies)}
+              movies={filterShortMovies(sortedMovies, false)}
               autorized={isAutorized}
               setIsThemeDark={setIsThemeDark}
               setIsShowHeader={setIsShowHeader}
@@ -348,6 +365,7 @@ function App() {
               isShortFilter={isShortFilter}
               movieReq={movieReq}
               setMovieReq={setMovieReq}
+              isSavedMovies={false}
             />
             <ProtectRoute
               path='/save-movies'
@@ -355,9 +373,11 @@ function App() {
               autorized={isAutorized}
               setIsThemeDark={setIsThemeDark}
               setIsShowHeader={setIsShowHeader}
-              saveMovies={saveMovies}
+              saveMovies={filterShortMovies(saveMovies, true)}
               isSavedMovies={true}
               handleDeleteSaveMovie={handleDeleteSaveMovie}
+              handleCheckBox={handleCheckBox}
+              isShortFilter={isShortFilterForSaveMovies}
             />
             <ProtectRoute
               path='/profile'

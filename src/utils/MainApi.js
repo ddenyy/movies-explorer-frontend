@@ -63,9 +63,9 @@ class Api {
         'description': movie.description,
         'image': `https://api.nomoreparties.co/${movie.image.url}`,
         'trailerLink': movie.trailerLink,
-        'nameRU': movie.nameRU,
-        'nameEN': movie.nameEN,
-        'thumbnail': `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`,
+        'nameRU': `${movie.nameRU === '' ? 'none' : movie.nameRU}`,
+        'nameEN': `${movie.nameEN === '' ? 'none' : movie.nameEN}`,
+        'thumbnail': `${movie.image.formats.thumbnail.url === null ? 'https://api.nomoreparties.co/none' : `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`}`,
         'movieId': movie.id,
       })
     })
