@@ -43,6 +43,7 @@ function App() {
   const history = useHistory();
 
   React.useEffect(() => {
+    setIsShowHeader(true);
     checkToken();
     // проверям авторизован ли пользователь и запрашиваем информацию с сервера
     if (currentUser || isAutorized) {
@@ -329,20 +330,22 @@ function App() {
               <Login
                 handleLogin={handleLogin}
                 setIsThemeDark={setIsThemeDark}
+                setIsShowHeader={setIsShowHeader}
               />
             </Route>
             <Route path='/signup'>
               <Register
                 handleRegister={handleRegister}
+                setIsShowHeader={setIsShowHeader}
               />
             </Route>
-            <ProtectRoute
-              path='/'
-              exact
-              autorized={isAutorized}
-              component={Main}
-              setIsThemeDark={setIsThemeDark}
-            />
+            <Route path='/' exact>
+              <Main
+                autorized={isAutorized}
+                setIsThemeDark={setIsThemeDark}
+                setIsShowHeader={setIsShowHeader}
+              />
+            </Route>
             <ProtectRoute
               path='/movies'
               component={Movies}

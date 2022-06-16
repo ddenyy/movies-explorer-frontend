@@ -1,70 +1,63 @@
-# Getting Started with Create React App
+# Movies-explorer-frontend
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+ Это полностью с нуля самостоятельный выпускной проект на курсе веб-разработки в Яндекс.Практикум.
+ Главная страница содержит основную информацию о проекте и ссылки на контакты студента и Яндекс Практикума
+ После регистрации и авторизации пользователю доступен сервис по поиску фильмов.
 
-## Available Scripts
 
-In the project directory, you can run:
+## [Сайт](https://deosmovies-explorer.nomoredomains.xyz/)
 
-### `npm start`
+### :rocket: Установка и запуск проекта
+*1. клонируйте репозиторий:*<br/>
+`git clone https://github.com/ddenyy/movies-explorer-frontend`<br/>
+*2. установите зависимости:*<br/>
+ `npm install`<br/>
+*3. запустите сервер:*<br/>
+ `npm start`<br/>
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## :point_right: Реализованные методы 
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Запросы к собственному API:
+- проверка токена,
+- авторизация с использованием localStorage,
+- регистрация,
+- получение и изменение данных пользователя
+- добавление / удаление фильма в избранное.
 
-### `npm test`
+### Запросы API к сервису beatfilm-movies:
+- получение всех фильмов и сохранение их в localStorage,
+- поиск фильма по ключевому слову,
+- сортировка фильмов в зависимости от длительности.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Роутинг:
+- все роуты, кроме '/ ', 'sign-in', sign-out' защищены HOC-компонентом ProtectedRoute,
+- при попытке перейти по защищенному роуту происходит редирект на главную страницу,
+- после успешной авторизации происходит редирект на главную страницу
 
-### `npm run build`
+### Валидация форм:
+- организована при помощи кастомного хука
+- сделан специальный вывод ошибок под импутам и/или в всплывающее окно
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Общая функциональность:
+- header изменяет состояние в зависимости от авторизации пользователя,
+- на разрешении менее 768рх появляется гамбургер-меню,
+- для хранения данных о пользователе использована глобальная стейт-переменная currentUser, созданная с помощью createContext,
+- в компонент App внедрен контекст через CurrentUserContext.Provider,
+- использованы хуки (useState, useEffect, useContext, useHistory),
+- настроен прелоадер на запросы к API,
+- кликом по карточке переводит на ютюб-трейлер фильма,
+- настроено отражение фильмов по 3/2/1 карточки с кнопкой "еще" в зависимости от разрешения экрана,
+- сделана микроанимация кнопок, ссылок и инпутов,
+- разметка семантическая и портирована в JSX,
+- все классы названы по БЭМ,
+- вёрстка на Flex layout и/или Grid layout,
+- сайт резиновый и адаптирован под рарешения: 1280, 1024, 768, 460 и 320рх.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+### :eyeglasses: Технологии
+- React
+- JavaScript 
+- CSS 
+- Flexbox
+- Grid layout
+- JSX
+- BEM 

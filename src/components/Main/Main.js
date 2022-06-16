@@ -4,10 +4,11 @@ import Promo from '../Promo/Promo';
 import AboutProject from '../AboutProject/AboutProject.js'; 
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
-function Main({ setIsThemeDark }) {
+function Main({ setIsThemeDark, setIsShowHeader }) {
 
   React.useEffect(() => {
-    setIsThemeDark(false)
+    setIsThemeDark(false);
+    setIsShowHeader(true);
   }, [])
 
   return (

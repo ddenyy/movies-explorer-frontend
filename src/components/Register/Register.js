@@ -5,7 +5,11 @@ import './Register.css'
 import { Link } from 'react-router-dom';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 
-function Register({ handleRegister }) {
+function Register({ handleRegister, setIsShowHeader }) {
+
+  React.useEffect(() => {
+    setIsShowHeader(false);
+  }, [])
 
   const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
 
