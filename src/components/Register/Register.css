@@ -99,6 +99,12 @@
   border-radius: 3px;
 }
 
+.register__button_type_registration:disabled {
+  cursor: default;
+  background-color: #F8F8F8;
+  color: #C2C2C2;
+}
+
 .register__button_type_enter {
   color: #4285f4;
   text-decoration: none;

@@ -2,45 +2,44 @@ import React from "react";
 import './Movies.css'
 import SearchForm from '../SearchForm/SearchForm';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import Header from '../Header/Header';
 
-function Movies({ setIsThemeDark, setIsShowHeader, movies, handleSaveMovie, handleDeleteSaveMovie, handleGetMovies, checkSavedMovie, handleCheckBox, isShortFilter, isSavedMovies }) {
+function Movies({autorized, handleOnClickBurger, isOpenBurger, onClose, movies, handleSaveMovie, handleDeleteSaveMovie, handleGetMovies, checkSavedMovie, handleCheckBox, isSavedMovies, isShortFilter }) {
 
   const [countMovies, setcountMovies] = React.useState(12);
-  const [countAdder, setcountAdder ] = React.useState(3);
+  const [countAdder, setcountAdder] = React.useState(3);
   const [isHuddenButton, setIsHuddenButton] = React.useState(true);
 
   React.useEffect(() => {
-    setIsThemeDark(true);
-    setIsShowHeader(true);
-    handleHiddenButton();
+    window.addEventListener('resize', handleShowMovies);
     return (
       window.removeEventListener('resize', handleShowMovies)
     );
   }, [])
 
   React.useEffect(() => {
+    handleHiddenButton();
+  }, [movies])
+
+  React.useEffect(() => {
     if (window.innerWidth <= 1280 & window.innerWidth > 769) {
       setcountMovies(12)
     } else if (window.innerWidth < 769 & window.innerWidth > 481) {
       setcountMovies(8)
-    } else if (window.innerWidth < 481 & window.innerWidth > 0){
+    } else if (window.innerWidth < 481 & window.innerWidth > 0) {
       setcountMovies(5)
     } else {
       setcountMovies(12)
     }
   }, [window.innerWidth])
 
-
-  window.addEventListener('resize', handleShowMovies);
-  
-
-  function handleShowMovies () {
+  function handleShowMovies() {
     setTimeout(() => {
       if (window.innerWidth > 1279) {
         setcountAdder(3)
-      } else if (window.innerWidth <= 1280 & window.innerWidth >  481) {
+      } else if (window.innerWidth <= 1280 & window.innerWidth > 481) {
         setcountAdder(2)
-      } else if (window.innerWidth < 481 & window.innerWidth > 0){
+      } else if (window.innerWidth < 481 & window.innerWidth > 0) {
         setcountAdder(1)
       } else {
         setcountAdder(3)
@@ -49,7 +48,7 @@ function Movies({ setIsThemeDark, setIsShowHeader, movies, handleSaveMovie, hand
   }
 
   function showMore() {
-    if ( movies.length  < countMovies) {
+    if (movies.length < countMovies) {
       setIsHuddenButton(true);
     } else {
       setcountMovies(countMovies + countAdder);
@@ -57,18 +56,27 @@ function Movies({ setIsThemeDark, setIsShowHeader, movies, handleSaveMovie, hand
     }
   }
 
-  function handleHiddenButton () {
+  function handleHiddenButton() {
     if (movies[countMovies]) {
       setIsHuddenButton(false);
     } else {
-      setIsHuddenButton(true)
+      setIsHuddenButton(true);
+
     }
   }
 
   return (
-    <section className='movies'>
+    <>
+      <Header
+        autorized={autorized}
+        themeDark={true}
+        handleOnClickBurger={handleOnClickBurger}
+        isOpenBurger={isOpenBurger}
+        onClose={onClose}
+      />
+      <section className='movies'>
       <div className='movies__content'>
-        <SearchForm handleGetMovies={handleGetMovies} handleCheckBox={handleCheckBox} isShortFilter={isShortFilter} isSavedMovies={isSavedMovies}/>
+        <SearchForm handleGetMovies={handleGetMovies} handleCheckBox={handleCheckBox} isSavedMovies={isSavedMovies} isShortFilter={isShortFilter}/>
         <img className='movies__line' />
         <MoviesCardList countMovies={countMovies} isSavedMovies={false} movies={movies} handleSaveMovie={handleSaveMovie} handleDeleteSaveMovie={handleDeleteSaveMovie} checkSavedMovie={checkSavedMovie} />
         {!isHuddenButton ?
@@ -78,6 +86,7 @@ function Movies({ setIsThemeDark, setIsShowHeader, movies, handleSaveMovie, hand
         }
       </div>
     </section>
+    </>
   );
 }
 

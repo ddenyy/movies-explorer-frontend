@@ -1,17 +1,24 @@
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import './SearchForm.css';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 
-function SearchForm({ handleGetMovies, handleCheckBox, isShortFilter, isSavedMovies, handleGetSavedMovies }) {
+function SearchForm({ handleGetMovies, handleCheckBox, isSavedMovies, handleGetSavedMovies, isShortFilter }) {
 
   const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
   const refInputFilm = useRef();
 
+
   React.useEffect(() => {
-    resetForm();
     if (!isSavedMovies) {
       refInputFilm.current.value = localStorage.getItem('reqFilmValue');
+    } else {
+      refInputFilm.current.value = localStorage.getItem('reqSaveFilmValue');
     }
+  }, [])
+
+  // перерисовка формы
+  React.useEffect(() => {
+    resetForm();
   }, [resetForm])
 
   function toggleButton() {
@@ -22,10 +29,12 @@ function SearchForm({ handleGetMovies, handleCheckBox, isShortFilter, isSavedMov
     }
   }
 
+
   function handleSubmit(e) {
     e.preventDefault();
     if (isSavedMovies) {
       handleGetSavedMovies(values.film);
+      localStorage.setItem('reqSaveFilmValue', values.film);
     } else {
       handleGetMovies(values.film);
       localStorage.setItem('reqFilmValue', values.film);
@@ -34,11 +43,7 @@ function SearchForm({ handleGetMovies, handleCheckBox, isShortFilter, isSavedMov
 
   return (
     <form onSubmit={handleSubmit} className='search-form search-form_position_movies'>
-      {isSavedMovies ?
-        <input ref={refInputFilm} onChange={handleChange} value={values.film} className='search-form__input' type='text' name='film' placeholder="фильм"></input>
-        :
-        <input required ref={refInputFilm} onChange={handleChange} value={values.film} className='search-form__input' type='text' name='film' placeholder="фильм"></input>
-      }
+      <input required ref={refInputFilm} onChange={handleChange} value={values.film} className='search-form__input' type='text' name='film' placeholder="фильм"></input>
       <span className='search-form__error'>
         {errors.film || ''}
       </span>

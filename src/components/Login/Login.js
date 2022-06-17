@@ -7,16 +7,11 @@ import { Link } from 'react-router-dom';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 
 
-function Login({ handleLogin, setIsThemeDark, setIsShowHeader }) {
+function Login({ handleLogin }) {
   const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
 
   React.useEffect(() => {
-    setIsShowHeader(false);
-  }, [])
-
-  React.useEffect(() => {
     resetForm();
-    setIsThemeDark(true)
   }, [resetForm])
 
   function handleSubmit(e) {
@@ -27,7 +22,7 @@ function Login({ handleLogin, setIsThemeDark, setIsShowHeader }) {
   return (
     <section className='register'>
       <div className='register__content'>
-        <img src={logo} alt='логотип' className='register__logo' />
+        <Link to='/'><img src={logo} alt='логотип' className='register__logo' /></Link>
         <h2 className='profile__name profile__name_position_register'>Рады видеть!</h2>
         <form onSubmit={handleSubmit} className='form register__form'>
           <label className='profile__label'>
@@ -44,7 +39,7 @@ function Login({ handleLogin, setIsThemeDark, setIsShowHeader }) {
               {errors.password || ''}
             </span>
           </label>
-          <button className='register__button register__button_type_registration register__button_position_login'>Войти</button>
+          <button disabled={!isValid} className='register__button register__button_type_registration register__button_position_login'>Войти</button>
         </form>
         <p className='register__text'>Ещё не зарегистрированы?<Link to='/signup' className='register__button register__button_type_enter'>Регистрация</Link></p>
       </div>

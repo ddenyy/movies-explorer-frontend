@@ -4,15 +4,19 @@ import Promo from '../Promo/Promo';
 import AboutProject from '../AboutProject/AboutProject.js'; 
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
-function Main({ setIsThemeDark, setIsShowHeader }) {
+import Header from '../Header/Header';
 
-  React.useEffect(() => {
-    setIsThemeDark(false);
-    setIsShowHeader(true);
-  }, [])
+function Main({ autorized, handleOnClickBurger, isOpenBurger, onClose }) {
 
   return (
     <main className='main'>
+      <Header
+        autorized={autorized}
+        themeDark={false}
+        handleOnClickBurger={handleOnClickBurger}
+        isOpenBurger={isOpenBurger}
+        onClose={onClose}
+      />
       <Promo />
       <AboutProject />
       <Techs/>

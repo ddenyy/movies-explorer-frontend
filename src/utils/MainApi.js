@@ -62,10 +62,10 @@ class Api {
         'year': movie.year,
         'description': movie.description,
         'image': `https://api.nomoreparties.co/${movie.image.url}`,
-        'trailerLink': movie.trailerLink,
+        'trailerLink': isURL(movie.trailerLink) ? movie.trailerLink: 'https://deosmovies-explorer.nomoredomains.xyz/notFound',
         'nameRU': `${movie.nameRU === '' ? 'none' : movie.nameRU}`,
         'nameEN': `${movie.nameEN === '' ? 'none' : movie.nameEN}`,
-        'thumbnail': `${movie.image.formats.thumbnail.url === null ? 'https://api.nomoreparties.co/none' : `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`}`,
+        'thumbnail': `${movie.image.formats.thumbnail.url === null ? 'https://deosmovies-explorer.nomoredomains.xyz/notFound' : `https://api.nomoreparties.co/${movie.image.formats.thumbnail.url}`}`,
         'movieId': movie.id,
       })
     })
@@ -90,3 +90,9 @@ const api = new Api({
 })
 
 export default api;
+
+
+function isURL(url) {
+  var objRE = /(^https?:\/\/)?[a-z0-9~_\-\.]+\.[a-z]{2,9}(\/|:|\?[!-~]*)?$/i;
+  return objRE.test(url); 
+}

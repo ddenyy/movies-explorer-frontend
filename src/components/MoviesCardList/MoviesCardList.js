@@ -4,6 +4,15 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 
 function MoviesCardList({ movies, handleSaveMovie, handleDeleteSaveMovie, isSavedMovies, checkSavedMovie, countMovies }) {
 
+  // React.useEffect(() => {
+  //   if (isSavedMovies) {
+
+  //   } else {
+  //     movies = JSON.parse(localStorage.getItem('sortedMovies'));
+  //     console.log(movies)
+  //   }
+  // }, [movies])
+
   return (
     <article className='movies-card-list'>
       <div className='movies-card-list__content'>

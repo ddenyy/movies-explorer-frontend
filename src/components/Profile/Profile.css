@@ -131,6 +131,14 @@
   margin-left: 0;
 }
 
+.button__container .register__button_position_profile:disabled {
+  cursor: default;
+}
+
+.button__container .register__button_position_profile:disabled:hover {
+  cursor: default;
+}
+
 .profile__error {
   position: absolute;
   top: 40px;

@@ -5,11 +5,7 @@ import './Register.css'
 import { Link } from 'react-router-dom';
 import useFormWithValidation from '../../hooks/useFormWithValidation';
 
-function Register({ handleRegister, setIsShowHeader }) {
-
-  React.useEffect(() => {
-    setIsShowHeader(false);
-  }, [])
+function Register({ handleRegister }) {
 
   const { values, handleChange, resetForm, errors, isValid } = useFormWithValidation();
 
@@ -25,7 +21,7 @@ function Register({ handleRegister, setIsShowHeader }) {
   return (
     <section className='register'>
       <div className='register__content'>
-        <img src={logo} alt='логотип' className='register__logo' />
+      <Link to='/'><img src={logo} alt='логотип' className='register__logo' /></Link>
         <h2 className='profile__name profile__name_position_register'>Добро пожаловать!</h2>
         <form onSubmit={handleSubmit} className='form register__form'>
           <label className='profile__label'>
@@ -49,7 +45,7 @@ function Register({ handleRegister, setIsShowHeader }) {
               {errors.password || ''}
             </span>
           </label>
-          <button className='register__button register__button_type_registration'>Зарегистрироваться</button>
+          <button disabled={!isValid} className='register__button register__button_type_registration'>Зарегистрироваться</button>
         </form>
         <p className='register__text'>Уже зарегистрированы?<Link to='/signin' className='register__button register__button_type_enter'>Войти</Link></p>
       </div>

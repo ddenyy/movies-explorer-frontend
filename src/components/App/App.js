@@ -4,6 +4,7 @@ import './App.css';
 import api from '../../utils/MainApi';
 import * as MoviesApi from '../../utils/MoviesApi';
 import * as MoviesAuth from '../../utils/MainApiAuth';
+import * as Validation from '../../utils/validation';
 import { infoToolTipContext } from "../../context/infoToolTipContext";
 import { currentUserContext } from "../../context/CurrentUserContext";
 import Main from '../Main/Main';
@@ -18,11 +19,11 @@ import PageNotFound from '../PageNotFound/PageNotFound';
 import Preloader from '../Preloader/Preloader';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectRoute from '../ProtectedRoute/ProtectedRoute';
-
+import AuthRoute from '../AuthRoute/AuthRoute';
 
 function App() {
-  const [isShowHeader, setIsShowHeader] = useState(null);
-  const [isAutorized, setIsAutorized] = useState(null);
+  const [isShowHeader, setIsShowHeader] = useState(false);
+  const [isAutorized, setIsAutorized] = useState(true);
   const [isBurgerOpen, setIsBurgernOpen] = useState(false);
   const [isThemeDark, setIsThemeDark] = useState(false);
   const [isLoader, setLoader] = useState(false);
@@ -42,24 +43,40 @@ function App() {
 
   const history = useHistory();
 
+  // при перезагружке отобразим все фильмы из хранилища
   React.useEffect(() => {
-    setIsShowHeader(true);
+    checkToken();
+    if (localStorage.getItem('sortedMovies')) {
+      setSortedMovies(JSON.parse(localStorage.getItem('sortedMovies')));
+      setIsShortFilterForSaveMovies(JSON.parse(localStorage.getItem('isShortFilterForSaveMovies')));
+      setIsShortFilter(JSON.parse(localStorage.getItem('isShortFilter')));
+    }
+  }, [])
+
+  React.useEffect(() => {
     checkToken();
     // проверям авторизован ли пользователь и запрашиваем информацию с сервера
-    if (currentUser || isAutorized) {
+    if (currentUser.email || isAutorized) {
       Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies(), api.getUserInfo()])
         .then(([moviesRes, saveMoviesRes, userInfo]) => {
           setCurrentUser(userInfo);
           setbeatfilmMovies(moviesRes);
+          localStorage.setItem("movies", JSON.stringify(moviesRes));
           const savedMoviesList = saveMoviesRes.movies.filter(
             (item) => item.owner === userInfo._id
           );
+          if (localStorage.getItem('sortedSaveMovies')) {
+            setSortedSaveMovies(JSON.parse(localStorage.getItem('sortedSaveMovies')));
+          } else {
+            setSortedSaveMovies(savedMoviesList);
+          }
           setSaveMovies(savedMoviesList);
-          setSortedSaveMovies(savedMoviesList);
         })
         .catch((e) => console.log(e))
     }
   }, [isAutorized]);
+
+
 
   function closeAll() {
     setIsBurgernOpen(false);
@@ -79,11 +96,18 @@ function App() {
           if (res.email) {
             setCurrentUser(res);
             setIsAutorized(true);
-            setIsShowHeader(true);
-            history.push("/");
+            history.push('/movies')
           }
         })
-        .catch(e => console.log(e))
+        .catch(e => {
+          console.log(`С токеном что-то не так: ${e}`);
+          setIsAutorized(false);
+          localStorage.removeItem('jwt');
+          history.push('/')
+        })
+    } else {
+      setIsAutorized(false);
+      history.push('/');
     }
   }
 
@@ -93,58 +117,77 @@ function App() {
   }
 
   function handleRegister(email, password, name) {
-    setLoader(true);
-    return (
-      MoviesAuth.register(email, password, name)
-        .then((res) => {
-          if (res.email) {
+    if (Validation.isEmail(email) && (password.length <= 8) && (name.length > 1)) {
+      setLoader(true);
+      return (
+        MoviesAuth.register(email, password, name)
+          .then(async (res) => {
+            if (res.email) {
+              // если пользователь зарегистрировался сразу его авторизуем
+              await handleLogin(res.email, password);
+              setLoader(false);
+              setCurrentInfoToolTip({
+                isSucces: true,
+                isOpen: true,
+                text: 'Вы успешно зарегистрировались!',
+              })
+              history.push("/movies");
+            }
+            else {
+              setCurrentInfoToolTip({
+                isSucces: false,
+                isOpen: true,
+                text: res.message,
+              })
+              throw new Error(res.message)
+            }
+          })
+          .catch((e) => {
+            console.log(e);
+            history.push('/')
             setLoader(false);
-            setCurrentInfoToolTip({
-              isSucces: true,
-              isOpen: true,
-              text: 'Вы успешно зарегистрировались!',
-            })
-            history.push("/signin")
-          }
-          else {
-            setCurrentInfoToolTip({
-              isSucces: false,
-              isOpen: true,
-              text: res.message,
-            })
-            throw new Error(res.message)
-          }
-        })
-        .catch((e) => {
-          console.log(e)
-          setLoader(false);
-        })
-    );
+          })
+      );
+    } else {
+      setCurrentInfoToolTip({
+        isSucces: false,
+        isOpen: true,
+        text: 'Проверьте корректность введённых данных'
+      });
+    }
+
   }
 
   function handleLogin(email, password) {
-    setLoader(true);
-    return (MoviesAuth.authorize(email, password)
-      .then((res) => {
-        if (!res) {
-          setCurrentInfoToolTip({
-            isSucces: false,
-            isOpen: true,
-            text: 'Вы ввели неправильную почту или пароль'
-          })
-          setLoader(false);
-        }
-        if (res.token) {
-          localStorage.setItem('jwt', res.token);
-          getCurrentUserInfo();
-          setIsAutorized(true);
-          setLoader(false);
-          setIsShowHeader(true);
-          history.push("/");
-        }
-      })
-      .catch(e => console.log(e))
-    );
+    if (Validation.isEmail(email) && (password.length <= 8)) {
+      setLoader(true);
+      return (MoviesAuth.authorize(email, password)
+        .then((res) => {
+          if (!res) {
+            setCurrentInfoToolTip({
+              isSucces: false,
+              isOpen: true,
+              text: 'Вы ввели неправильную почту или пароль'
+            })
+            setLoader(false);
+          }
+          if (res.token) {
+            localStorage.setItem('jwt', res.token);
+            getCurrentUserInfo();
+            setIsAutorized(true);
+            setLoader(false);
+            history.push('/movies');
+          }
+        })
+        .catch(e => console.log(e))
+      );
+    } else {
+      setCurrentInfoToolTip({
+        isSucces: false,
+        isOpen: true,
+        text: 'Вы ввели неправильную почту или пароль'
+      });
+    }
   }
 
   // возвращает информацию по поводу текущего пользоваля
@@ -189,15 +232,13 @@ function App() {
 
   // управляет выходом пользователя из аккаунта
   function handleExit() {
-    localStorage.removeItem('jwt');
-    localStorage.removeItem('reqFilmValue');
+    localStorage.clear();
     setCurrentUser({});
     setIsAutorized(false);
-    setIsShowHeader(false);
     setSaveMovies([]);
     setSortedMovies([]);
     setSortedSaveMovies([]);
-    history.push('/signin');
+    history.push('/');
   }
 
   // ф-ция сохранения фильма
@@ -207,8 +248,10 @@ function App() {
       .then((res) => {
         if (res.movie) {
           const newSavedMovies = [res.movie, ...saveMovies];
+          localStorage.setItem('saveMovies', JSON.stringify(newSavedMovies));
           setSaveMovies(newSavedMovies)
           setSortedSaveMovies(newSavedMovies);
+          localStorage.setItem('sortedSaveMovies', JSON.stringify(newSavedMovies));
         } else {
           throw new Error('При сохранении фильма произошла ошибка.')
         }
@@ -230,14 +273,19 @@ function App() {
     // находим фильм который хотим удалить в savedMovies и вытаскиваем из него _id чтоб удалить из нашей БД на беке
     const thisId = movie.id || movie.movieId;
     const thisMovie = saveMovies.find((item) => item.movieId === thisId);
+
     api.deleteMovie(thisMovie._id)
       .then((deletedMovie) => {
         if (!deletedMovie) {
           throw new Error('При удалении фильма произошла ошибка.')
         } else {
           const newSaveMoviesList = saveMovies.filter((c) => c.movieId !== thisId);
+          // обновляем список сохранённых фильмов. SaveMovies чтоб если что смогли удалить эту карточку,
+          // а отсортированный чтоб пользователю грамотно отображалось
           setSaveMovies(newSaveMoviesList);
           setSortedSaveMovies(newSaveMoviesList);
+          localStorage.setItem('sortedSaveMovies', JSON.stringify(newSaveMoviesList));
+          localStorage.setItem('saveMovies', JSON.stringify(newSaveMoviesList));
         }
       })
       .catch((e) => console.log(`ошибка при удалении фильма: ${e}`))
@@ -251,6 +299,7 @@ function App() {
     ));
   }
 
+  // ф-ция поиска и получения фильмов
   function handleGetMovies(keyword) {
     const key = new RegExp(keyword, "gi");
     const findedMovies = beatfilmMovies.filter((item) => {
@@ -268,14 +317,10 @@ function App() {
       return movie;
     });
     setSortedMovies(checkedSaveMovies);
+    localStorage.setItem('sortedMovies', JSON.stringify(checkedSaveMovies))
   }
 
   function handleGetSavedMovies(keyword) {
-    // если ничего не ввёл, отобразим все сохранённые фильмы
-    if (keyword === '') {
-      setSortedSaveMovies(saveMovies);
-      return;
-    }
     const key = new RegExp(keyword, "gi");
     const findedMovies = saveMovies.filter((item) => {
       return key.test(item.nameRU) || key.test(item.nameEN)
@@ -288,14 +333,17 @@ function App() {
       })
     }
     setSortedSaveMovies(findedMovies);
+    localStorage.setItem('sortedSaveMovies', JSON.stringify(findedMovies))
   }
 
   // управляет фильтром на короткометражки его состоянием вкл или выкл
   function handleCheckBox(isSaveMoviePosition) {
     if (isSaveMoviePosition) {
       setIsShortFilterForSaveMovies(!isShortFilterForSaveMovies)
+      localStorage.setItem('isShortFilterForSaveMovies', JSON.stringify(!isShortFilterForSaveMovies))
     } else {
       setIsShortFilter(!isShortFilter);
+      localStorage.setItem('isShortFilter', JSON.stringify(!isShortFilter))
     }
   }
   // управляет логикой фильтра короткометражек
@@ -314,82 +362,83 @@ function App() {
       <infoToolTipContext.Provider value={currentInfoToolTip}>
         <div className='page'>
           <Preloader isOpen={isLoader} />
-          {isShowHeader ?
-            <Header
-              autorized={isAutorized}
-              themeDark={isThemeDark}
-              handleOnClickBurger={handleBurgerionOpen}
-              isOpenBurger={isBurgerOpen}
-              onClose={closeAll}
-            />
-            :
-            <></>
-          }
           <Switch>
-            <Route path='/signin'>
-              <Login
-                handleLogin={handleLogin}
-                setIsThemeDark={setIsThemeDark}
-                setIsShowHeader={setIsShowHeader}
-              />
-            </Route>
-            <Route path='/signup'>
-              <Register
-                handleRegister={handleRegister}
-                setIsShowHeader={setIsShowHeader}
-              />
-            </Route>
-            <Route path='/' exact>
-              <Main
-                autorized={isAutorized}
-                setIsThemeDark={setIsThemeDark}
-                setIsShowHeader={setIsShowHeader}
-              />
-            </Route>
             <ProtectRoute
+              autorized={isAutorized}
               path='/movies'
               component={Movies}
               movies={filterShortMovies(sortedMovies, false)}
-              autorized={isAutorized}
-              setIsThemeDark={setIsThemeDark}
-              setIsShowHeader={setIsShowHeader}
               handleSaveMovie={handleSaveMovie}
               handleDeleteSaveMovie={handleDeleteSaveMovie}
               handleGetMovies={handleGetMovies}
               checkSavedMovie={checkSavedMovie}
               handleCheckBox={handleCheckBox}
-              isShortFilter={isShortFilter}
               isSavedMovies={false}
-            />
-            <ProtectRoute
-              path='/save-movies'
-              component={SavedMovies}
-              autorized={isAutorized}
-              setIsThemeDark={setIsThemeDark}
-              setIsShowHeader={setIsShowHeader}
-              saveMovies={filterShortMovies(sortedSaveMovies, true)}
-              isSavedMovies={true}
-              handleDeleteSaveMovie={handleDeleteSaveMovie}
-              handleCheckBox={handleCheckBox}
-              isShortFilter={isShortFilterForSaveMovies}
-              handleGetSavedMovies={handleGetSavedMovies}
+              isShortFilter={isShortFilter}
+              handleOnClickBurger={handleBurgerionOpen}
+              isOpenBurger={isBurgerOpen}
+              onClose={closeAll}
             />
             <ProtectRoute
               path='/profile'
               component={Profile}
               autorized={isAutorized}
-              currentUser={currentUser}
-              setIsThemeDark={setIsThemeDark}
               handleUpdateInfo={handleUpdateInfo}
               handleExit={handleExit}
-              setIsShowHeader={setIsShowHeader}
+              handleOnClickBurger={handleBurgerionOpen}
+              isOpenBurger={isBurgerOpen}
+              onClose={closeAll}
             />
-            <Route>
-              {isAutorized ?
-                <Redirect exact to="/" />
-                :
-                <Redirect to="/signin" />}
+            <Route path='/' exact>
+              <Main
+                autorized={isAutorized}
+                handleOnClickBurger={handleBurgerionOpen}
+                isOpenBurger={isBurgerOpen}
+                onClose={closeAll}
+              />
             </Route>
+            <AuthRoute
+              path='/signin'
+              component={Login}
+              handleLogin={handleLogin}
+              autorized={isAutorized}
+            />
+            <AuthRoute
+              path='/signup'
+              component={Register}
+              handleRegister={handleRegister}
+              autorized={isAutorized}
+            />
+            <ProtectRoute
+              path='/movies'
+              component={Movies}
+              movies={filterShortMovies(sortedMovies, false)}
+              autorized={isAutorized}
+              handleSaveMovie={handleSaveMovie}
+              handleDeleteSaveMovie={handleDeleteSaveMovie}
+              handleGetMovies={handleGetMovies}
+              checkSavedMovie={checkSavedMovie}
+              handleCheckBox={handleCheckBox}
+              isSavedMovies={false}
+              isShortFilter={isShortFilter}
+              handleOnClickBurger={handleBurgerionOpen}
+              isOpenBurger={isBurgerOpen}
+              onClose={closeAll}
+            />
+            <ProtectRoute
+              path='/save-movies'
+              component={SavedMovies}
+              autorized={isAutorized}
+              saveMovies={filterShortMovies(sortedSaveMovies, true)}
+              isSavedMovies={true}
+              handleDeleteSaveMovie={handleDeleteSaveMovie}
+              handleCheckBox={handleCheckBox}
+              handleGetSavedMovies={handleGetSavedMovies}
+              isShortFilter={isShortFilterForSaveMovies}
+              handleOnClickBurger={handleBurgerionOpen}
+              isOpenBurger={isBurgerOpen}
+              onClose={closeAll}
+            />
             <Route path='/'>
               <PageNotFound />
             </Route>

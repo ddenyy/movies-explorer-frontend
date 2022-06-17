@@ -4,6 +4,7 @@ import { useHistory } from 'react-router-dom';
 import './PageNotFound.css'
 function PageNotFound () {
     const history = useHistory();
+    
     function handleClick() {
         history.goBack();
     }
