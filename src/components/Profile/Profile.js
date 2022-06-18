@@ -6,6 +6,7 @@ import '../Register/Register.css'
 import { infoToolTipContext } from '../../context/infoToolTipContext.js';
 import { currentUserContext } from "../../context/CurrentUserContext";
 import Header from "../Header/Header";
+import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
 
 function Profile({ autorized, handleOnClickBurger, isOpenBurger, onClose, handleUpdateInfo, handleExit }) {
   const contextPopupEditProfile = useContext(infoToolTipContext);

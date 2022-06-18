@@ -20,12 +20,11 @@ import Preloader from '../Preloader/Preloader';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 import ProtectRoute from '../ProtectedRoute/ProtectedRoute';
 import AuthRoute from '../AuthRoute/AuthRoute';
+import { MAX_DURATION_SHORT_FILMS } from '../../config/config';
 
 function App() {
-  const [isShowHeader, setIsShowHeader] = useState(false);
   const [isAutorized, setIsAutorized] = useState(true);
   const [isBurgerOpen, setIsBurgernOpen] = useState(false);
-  const [isThemeDark, setIsThemeDark] = useState(false);
   const [isLoader, setLoader] = useState(false);
   const [isShortFilter, setIsShortFilter] = useState(false);
   const [isShortFilterForSaveMovies, setIsShortFilterForSaveMovies] = useState(false)
@@ -60,6 +59,7 @@ function App() {
       Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies(), api.getUserInfo()])
         .then(([moviesRes, saveMoviesRes, userInfo]) => {
           setCurrentUser(userInfo);
+          localStorage.setItem('currentUser', JSON.stringify(userInfo));
           setbeatfilmMovies(moviesRes);
           localStorage.setItem("movies", JSON.stringify(moviesRes));
           const savedMoviesList = saveMoviesRes.movies.filter(
@@ -96,7 +96,7 @@ function App() {
           if (res.email) {
             setCurrentUser(res);
             setIsAutorized(true);
-            history.push('/movies')
+            // history.push('/movies')
           }
         })
         .catch(e => {
@@ -164,6 +164,7 @@ function App() {
       return (MoviesAuth.authorize(email, password)
         .then((res) => {
           if (!res) {
+            console.log(res)
             setCurrentInfoToolTip({
               isSucces: false,
               isOpen: true,
@@ -185,7 +186,7 @@ function App() {
       setCurrentInfoToolTip({
         isSucces: false,
         isOpen: true,
-        text: 'Вы ввели неправильную почту или пароль'
+        text: 'Проверьте корректность введённых данных'
       });
     }
   }
@@ -204,7 +205,8 @@ function App() {
   // обновляем информацию о текущем пользователе
   function handleUpdateInfo(email, name) {
     setLoader(true);
-    return api.updateUserInfo({ email, name })
+    if (Validation.isEmail(email) && name.length > 1) {
+      return api.updateUserInfo({ email, name })
       .then((res) => {
         setCurrentUser(res);
         setLoader(false);
@@ -228,12 +230,21 @@ function App() {
       .finally(() => {
         setLoader(false);
       })
+    } else {
+      setLoader(false);
+      setCurrentInfoToolTip({
+        isSuccesUpdateInfo: false,
+        isSucces: false,
+        isOpen: true,
+        text: 'проверьте корректность изменённых данных.',
+      })
+    }
   }
 
   // управляет выходом пользователя из аккаунта
   function handleExit() {
     localStorage.clear();
-    setCurrentUser({});
+    setCurrentUser({});   
     setIsAutorized(false);
     setSaveMovies([]);
     setSortedMovies([]);
@@ -350,9 +361,9 @@ function App() {
   function filterShortMovies(arr, isSaveMoviePosition) {
     if (arr) {
       if (isSaveMoviePosition) {
-        return arr.filter((movie) => isShortFilterForSaveMovies ? movie.duration <= 40 : true)
+        return arr.filter((movie) => isShortFilterForSaveMovies ? movie.duration <= MAX_DURATION_SHORT_FILMS : true)
       } else {
-        return arr.filter((movie) => isShortFilter ? movie.duration <= 40 : true)
+        return arr.filter((movie) => isShortFilter ? movie.duration <= MAX_DURATION_SHORT_FILMS : true)
       }
     }
   }
@@ -375,6 +386,20 @@ function App() {
               handleCheckBox={handleCheckBox}
               isSavedMovies={false}
               isShortFilter={isShortFilter}
+              handleOnClickBurger={handleBurgerionOpen}
+              isOpenBurger={isBurgerOpen}
+              onClose={closeAll}
+            />
+            <ProtectRoute
+              path='/save-movies'
+              component={SavedMovies}
+              autorized={isAutorized}
+              saveMovies={filterShortMovies(sortedSaveMovies, true)}
+              isSavedMovies={true}
+              handleDeleteSaveMovie={handleDeleteSaveMovie}
+              handleCheckBox={handleCheckBox}
+              handleGetSavedMovies={handleGetSavedMovies}
+              isShortFilter={isShortFilterForSaveMovies}
               handleOnClickBurger={handleBurgerionOpen}
               isOpenBurger={isBurgerOpen}
               onClose={closeAll}
@@ -408,36 +433,6 @@ function App() {
               component={Register}
               handleRegister={handleRegister}
               autorized={isAutorized}
-            />
-            <ProtectRoute
-              path='/movies'
-              component={Movies}
-              movies={filterShortMovies(sortedMovies, false)}
-              autorized={isAutorized}
-              handleSaveMovie={handleSaveMovie}
-              handleDeleteSaveMovie={handleDeleteSaveMovie}
-              handleGetMovies={handleGetMovies}
-              checkSavedMovie={checkSavedMovie}
-              handleCheckBox={handleCheckBox}
-              isSavedMovies={false}
-              isShortFilter={isShortFilter}
-              handleOnClickBurger={handleBurgerionOpen}
-              isOpenBurger={isBurgerOpen}
-              onClose={closeAll}
-            />
-            <ProtectRoute
-              path='/save-movies'
-              component={SavedMovies}
-              autorized={isAutorized}
-              saveMovies={filterShortMovies(sortedSaveMovies, true)}
-              isSavedMovies={true}
-              handleDeleteSaveMovie={handleDeleteSaveMovie}
-              handleCheckBox={handleCheckBox}
-              handleGetSavedMovies={handleGetSavedMovies}
-              isShortFilter={isShortFilterForSaveMovies}
-              handleOnClickBurger={handleBurgerionOpen}
-              isOpenBurger={isBurgerOpen}
-              onClose={closeAll}
             />
             <Route path='/'>
               <PageNotFound />
