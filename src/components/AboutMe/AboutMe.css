@@ -1,0 +1,124 @@
+.about-me {
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  min-height: 608px;
+  margin-top: -1px;
+  background-color: #202020;
+  color: #ffffff;
+  
+}
+
+.about-me__content {
+  display: flex;
+  flex-direction: column;
+  color: #ffffff;
+  margin-top: 175px;
+  width: 1280px;
+  max-width: calc(100% - 70px * 2);
+}
+
+.about-project__text_aboutme {
+  max-width: 600px;
+  min-height: 88px;
+}
+
+.about-me__title_position_article {
+  font-style: normal;
+  font-weight: 400;
+  font-size: 50px;
+  line-height: 58px;
+  letter-spacing: -0.04em;
+  color: #ffffff;
+  margin: 0;
+  margin-bottom: 18px;
+}
+
+.about-project__subtitle_position_aboutme {
+  line-height: 20px;
+}
+
+.about-me__photo {
+  margin: 0;
+  width: 270px;
+  height: 327px;
+  background-size: cover;
+  border-radius: 10px;
+}
+
+.about-project__info_position_aboutme {
+  justify-content: space-between;
+}
+
+.about-project__article_position_aboutme {
+  max-width: 600px;
+}
+
+.about-me__list {
+  margin-top: 99px;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+.about-me__link {
+  color: #ffffff;
+  text-decoration: none;
+}
+
+@media screen and (max-width: 800px) {
+  .about-me__content {
+    max-width: calc(100% - 2 * 50px);
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .about-project__article_type_photo {
+    order: -1;
+  }
+
+  .about-me__photo {
+    max-width: 292px;
+    max-height: 352px;
+  }
+
+  .about-me__list {
+    margin-top: calc(100px - 10%);
+  }
+}
+
+@media screen and (max-width: 400px) {
+  .about-project__article_type_photo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .aboutme__title_position_article {
+    font-size: 30px;
+    line-height: 36px;
+  }
+
+  .about-project__text_aboutme {
+    font-weight: 400;
+    font-size: 11px;
+    line-height: 16px;
+  }
+
+  .about-me__content {
+    max-width: calc(100% - 2 * 14px);
+  }
+
+  .about-me__list {
+    margin-top: 40px;
+  }
+
+  .about-me__item:last-child {
+    display: none;
+  }
+}

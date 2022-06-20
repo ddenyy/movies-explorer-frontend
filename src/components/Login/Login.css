@@ -1,0 +1,9 @@
+.register__button_position_login{
+    margin-top: 180px;
+}
+
+.register__button_position_login:disabled {
+    cursor: default;
+    background-color: #F8F8F8;
+    color: #C2C2C2;
+}

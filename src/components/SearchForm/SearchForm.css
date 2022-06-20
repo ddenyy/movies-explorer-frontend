@@ -1,0 +1,151 @@
+.search-form {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  font-family: "Inter", Arial, Helvetica, sans-serif;
+}
+
+.search-form_position_movies {
+  margin-top: 80px;
+  margin-bottom: 83px;
+}
+
+.search-form__input {
+  width: 100%;
+  height: 48px;
+  background-color: inherit;
+  border: 1.5px solid #aaaaaa;
+  border-radius: 50px;
+  padding-left: 22px;
+  padding-right: 40px;
+  color: #ffffff;
+  opacity: 0.2;
+  position: relative;
+  box-sizing: border-box;
+}
+
+.search-form__input::placeholder {
+  color: #ffffff;
+}
+
+
+.menu-toggle__container {
+  display: flex;
+  flex-direction: row;
+  gap: 14px;
+  color: #ffffff;
+  align-items: center;
+}
+
+.menu-toggle__text {
+  margin: 0;
+}
+
+.search-form__button{
+  position: relative;
+  cursor: pointer;
+}
+
+.search-form__button_type_send {
+  width: 34px;
+  height: 34px;
+  position: relative;
+  right: 37px;
+  border: 0;
+  background-color: inherit;
+  background-image: url("../../images/find.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.search-form__button_type_send:hover{
+  opacity: 0.8;
+  transition: opacity 0.5s ease;
+}
+
+.search-form__button_type_send:disabled{
+  opacity: 0.3;
+  cursor: default;
+}
+
+
+.switch-btn {
+  display: inline-block;
+  width: 36px; /* ширина */
+  height: 20px; /* высота */
+  border-radius: 20px; /* радиус скругления */
+  background: #bfbfbf; /* цвет фона */
+  z-index: 0;
+  margin: 0;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  transition-duration: 300ms; /* анимация */
+}
+.switch-btn::after {
+  content: "";
+  height: 20px; /* высота кнопки */
+  width: 20px; /* ширина кнопки */
+  border-radius: 17px;
+  background: #fff; /* цвет кнопки */
+  top: 0px; /* положение кнопки по вертикали относительно основы */
+  left: 0px; /* положение кнопки по горизонтали относительно основы */
+  transition-duration: 200ms; /* анимация */
+  position: absolute;
+  z-index: 1;
+}
+.switch-on {
+  background: #3DDC84;
+}
+.switch-on::after {
+  left: 20px;
+}
+
+.search-form__error{
+  color: red;
+  position: absolute;
+  top: 140px;
+  left: 20px;
+  font-size: 12px;
+}
+
+@media screen and (max-width: 800px) {
+  .search-form_position_movies{
+    flex-direction: column;
+    gap:38px;
+    margin-bottom: 57px;
+    margin-top: 60px;
+    position: relative;
+  }
+  
+  .search-form__button_type_send{
+    position: absolute;
+    margin-top: 7px;
+    margin-left: 10px;
+    right: 7px;
+  }
+
+  .search-form__error{
+    top: 60px;
+    left: 20px;
+  }
+}
+
+@media screen and (max-width: 330px) {
+  .search-form__input{
+    max-width: 300px;
+    padding-left: 16px;
+  }
+
+  .search-form__button_type_send{
+    position: absolute;
+  }
+
+  .search-form__error{
+    top: 50px;
+    left: 10px;
+  }
+}

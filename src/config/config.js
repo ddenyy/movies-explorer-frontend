@@ -1,0 +1,1 @@
+export const MAX_DURATION_SHORT_FILMS = 40;
