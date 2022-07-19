@@ -13,7 +13,6 @@ import SavedMovies from '../SavedMovies/SavedMovies';
 import Profile from '../Profile/Profile';
 import Login from '../Login/Login';
 import Register from '../Register/Register';
-import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import PageNotFound from '../PageNotFound/PageNotFound';
 import Preloader from '../Preloader/Preloader';
@@ -53,17 +52,16 @@ function App() {
   }, [])
 
   React.useEffect(() => {
-    checkToken();
+    // checkToken();
     // проверям авторизован ли пользователь и запрашиваем информацию с сервера
-    if (currentUser.email || isAutorized) {
-      Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies(), api.getUserInfo()])
-        .then(([moviesRes, saveMoviesRes, userInfo]) => {
-          setCurrentUser(userInfo);
+    if (isAutorized) {
+      Promise.all([MoviesApi.getMovies(), api.getAllSavedMovies()])
+        .then(([moviesRes, saveMoviesRes]) => {
           localStorage.setItem('currentUser', JSON.stringify(userInfo));
           setbeatfilmMovies(moviesRes);
-          localStorage.setItem("movies", JSON.stringify(moviesRes));
+          // localStorage.setItem("movies", JSON.stringify(moviesRes));
           const savedMoviesList = saveMoviesRes.movies.filter(
-            (item) => item.owner === userInfo._id
+            (item) => item.owner === currentUser._id
           );
           if (localStorage.getItem('sortedSaveMovies')) {
             setSortedSaveMovies(JSON.parse(localStorage.getItem('sortedSaveMovies')));
@@ -75,8 +73,6 @@ function App() {
         .catch((e) => console.log(e))
     }
   }, [isAutorized]);
-
-
 
   function closeAll() {
     setIsBurgernOpen(false);
@@ -96,7 +92,6 @@ function App() {
           if (res.email) {
             setCurrentUser(res);
             setIsAutorized(true);
-            // history.push('/movies')
           }
         })
         .catch(e => {
@@ -164,7 +159,6 @@ function App() {
       return (MoviesAuth.authorize(email, password)
         .then((res) => {
           if (!res) {
-            console.log(res)
             setCurrentInfoToolTip({
               isSucces: false,
               isOpen: true,
@@ -260,7 +254,7 @@ function App() {
         if (res.movie) {
           const newSavedMovies = [res.movie, ...saveMovies];
           localStorage.setItem('saveMovies', JSON.stringify(newSavedMovies));
-          setSaveMovies(newSavedMovies)
+          setSaveMovies(newSavedMovies);
           setSortedSaveMovies(newSavedMovies);
           localStorage.setItem('sortedSaveMovies', JSON.stringify(newSavedMovies));
         } else {

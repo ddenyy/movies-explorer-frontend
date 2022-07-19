@@ -8,6 +8,7 @@ function PageNotFound () {
     function handleClick() {
         history.goBack();
     }
+    
     return(
         <section className='page-not-found'>
             <p className='page-not-found__text page-not-found__text_type_number'>404</p>
